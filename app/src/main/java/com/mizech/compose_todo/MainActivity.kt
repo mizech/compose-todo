@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterialApi::class)
+
 package com.mizech.compose_todo
 
 import Todo
@@ -19,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mizech.compose_todo.ui.theme.ComposetodoTheme
+import com.mizech.compose_todo.ui.theme.MainView
 
 class MainActivity : ComponentActivity() {
 
@@ -33,41 +36,6 @@ class MainActivity : ComponentActivity() {
                 ) {
                     MainView()
                 }
-            }
-        }
-    }
-}
-
-@SuppressLint("UnrememberedMutableState")
-@Composable
-fun MainView() {
-    var todos = remember {
-        mutableStateListOf<Todo>()
-    }
-
-    var currentText by remember {
-        mutableStateOf("")
-    }
-
-    Column(modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally) {
-        TextField(value = currentText, onValueChange = {
-            currentText = it
-        }, label = {
-            Text(text = "Add new To-Do")
-        }, placeholder = {
-            Text(text = "What has to be done?")
-        }, modifier = Modifier.padding(top = 20.dp, bottom = 10.dp))
-        Button(onClick = {
-            todos.add(Todo(text = currentText))
-            currentText = ""
-        }) {
-            Text("Insert new To-Do")
-        }
-        LazyColumn {
-            items(todos.count()) { index ->
-                Text(text = todos.get(index).text,
-                    modifier = Modifier.padding(top = 10.dp, bottom = 10.dp))
             }
         }
     }
