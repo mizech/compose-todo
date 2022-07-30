@@ -34,14 +34,14 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     val navController = rememberNavController()
-
-                    var roomDb = Room.databaseBuilder(
+                    val roomDb = Room.databaseBuilder(
                         this.applicationContext,
                         AppDatabase::class.java,
                         "todos_database"
-                    ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
+                    ).fallbackToDestructiveMigration().build()
 
-                    NavHost(navController = navController, startDestination = "main") {
+                    NavHost(navController = navController,
+                        startDestination = "main") {
                         composable("main") {
                             MainView(navigator = navController, roomDb = roomDb)
                         }
