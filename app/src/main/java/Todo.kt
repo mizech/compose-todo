@@ -1,1 +1,0 @@
-data class Todo(val text: String, val isDone: Boolean = false)

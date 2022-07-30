@@ -1,7 +1,7 @@
 package com.mizech.compose_todo.ui.theme
 
-import Todo
 import android.annotation.SuppressLint
+import androidx.annotation.RestrictTo
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,11 +12,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.room.RoomDatabase
+import com.mizech.compose_todo.AppDatabase
+import com.mizech.compose_todo.Todo
+import com.mizech.compose_todo.TodoDao
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @ExperimentalMaterialApi
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun MainView(navigator: NavController) {
+fun MainView(navigator: NavController, roomDb: AppDatabase) {
     var todos = remember {
         mutableStateListOf<Todo>()
     }
@@ -39,12 +46,20 @@ fun MainView(navigator: NavController) {
             if (textToDisplay.length > 45) {
                 textToDisplay = "${currentText.substring(0, 40)} ... "
             }
+            val todo = Todo()
+            todo.text = currentText
 
-            todos.add(Todo(text = textToDisplay))
+            runBlocking {
+                launch {
+                    roomDb.todoDao().insertAll(todo)
+                }
+            }
+            todos.add(todo)
             currentText = ""
         }) {
             Text("Insert new To-Do")
         }
+
         LazyColumn(horizontalAlignment = Alignment.Start) {
             items(todos.count()) { index ->
                 Card(onClick = {
