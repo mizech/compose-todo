@@ -72,7 +72,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
         LazyColumn(horizontalAlignment = Alignment.Start) {
             items(todos.count()) { index ->
                 Card(onClick = {
-                    navigator.navigate("details/487")
+                    navigator.navigate("details/${todos.get(index).id}")
                 }, elevation = 5.dp) {
                     Text(
                         text = todos.get(index).text,
