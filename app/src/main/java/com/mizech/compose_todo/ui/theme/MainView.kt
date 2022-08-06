@@ -64,7 +64,6 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                 roomDb.todoDao().insertAll(todo)
             }
 
-            // todos.add(todo)
             currentText = ""
         }) {
             Text("Insert new To-Do")
@@ -73,7 +72,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
         LazyColumn(horizontalAlignment = Alignment.Start) {
             items(todos.count()) { index ->
                 Card(onClick = {
-                    navigator.navigate("details")
+                    navigator.navigate("details/487")
                 }, elevation = 5.dp) {
                     Text(
                         text = todos.get(index).text,

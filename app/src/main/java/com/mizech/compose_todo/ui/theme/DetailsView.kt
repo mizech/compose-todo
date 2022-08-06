@@ -10,10 +10,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun DetailsView() {
+fun DetailsView(todoId: String) {
     Column(modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = "This is the Detail's View!")
+        Text(text = "This is the Detail's View! todoId: ${todoId}")
     }
 }
