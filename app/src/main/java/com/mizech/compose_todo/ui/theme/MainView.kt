@@ -2,6 +2,7 @@ package com.mizech.compose_todo.ui.theme
 
 import android.annotation.SuppressLint
 import androidx.annotation.RestrictTo
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.room.RoomDatabase
@@ -39,15 +41,18 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
         mutableStateOf("")
     }
 
-    Column(modifier = Modifier.fillMaxSize(),
+    Column(
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Button(modifier = Modifier.padding(top = 10.dp, bottom = 20.dp), onClick = {
-            CoroutineScope(Dispatchers.IO).launch {
-                roomDb.todoDao().deleteAll()
-                todos.clear()
+        TopAppBar(elevation = 4.dp, backgroundColor = Color.LightGray) {
+            Button(onClick = {
+                CoroutineScope(Dispatchers.IO).launch {
+                    roomDb.todoDao().deleteAll()
+                    todos.clear()
+                }
+            }) {
+                Text("Delete all Todos")
             }
-        }) {
-            Text("Delete all Todos")
         }
         TextField(value = currentText, onValueChange = {
             currentText = it
@@ -55,7 +60,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
             Text(text = "Add new To-Do")
         }, placeholder = {
             Text(text = "What has to be done?")
-        }, modifier = Modifier.padding(top = 10.dp, bottom = 10.dp))
+        }, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
         Button(modifier = Modifier.padding(bottom = 10.dp), onClick = {
             val todo = Todo()
             todo.text = currentText
