@@ -30,6 +30,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
     CoroutineScope(Dispatchers.IO).launch {
         var existing = roomDb.todoDao().selectAllTodos()
         withContext(Dispatchers.Main) {
+            todos.clear()
             todos.addAll(existing)
         }
     }
@@ -40,13 +41,21 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
 
     Column(modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally) {
+        Button(modifier = Modifier.padding(top = 10.dp, bottom = 20.dp), onClick = {
+            CoroutineScope(Dispatchers.IO).launch {
+                roomDb.todoDao().deleteAll()
+                todos.clear()
+            }
+        }) {
+            Text("Delete all Todos")
+        }
         TextField(value = currentText, onValueChange = {
             currentText = it
         }, label = {
             Text(text = "Add new To-Do")
         }, placeholder = {
             Text(text = "What has to be done?")
-        }, modifier = Modifier.padding(top = 20.dp, bottom = 10.dp))
+        }, modifier = Modifier.padding(top = 10.dp, bottom = 10.dp))
         Button(modifier = Modifier.padding(bottom = 10.dp), onClick = {
             val todo = Todo()
             todo.text = currentText
@@ -55,7 +64,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                 roomDb.todoDao().insertAll(todo)
             }
 
-            todos.add(todo)
+            // todos.add(todo)
             currentText = ""
         }) {
             Text("Insert new To-Do")
@@ -66,8 +75,10 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                 Card(onClick = {
                     navigator.navigate("details")
                 }, elevation = 5.dp) {
-                    Text(text = todos.get(index).text,
-                        modifier = Modifier.padding(all = 10.dp))
+                    Text(
+                        text = todos.get(index).text,
+                        modifier = Modifier.padding(all = 10.dp)
+                    )
                 }
             }
         }
