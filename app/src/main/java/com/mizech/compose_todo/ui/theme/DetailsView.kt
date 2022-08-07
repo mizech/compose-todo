@@ -1,14 +1,15 @@
 package com.mizech.compose_todo.ui.theme
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.mizech.compose_todo.AppDatabase
 import com.mizech.compose_todo.Todo
 import kotlinx.coroutines.CoroutineScope
@@ -30,11 +31,13 @@ fun DetailsView(todoId: String, roomDb: AppDatabase) {
     }
 
     Column(modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Column() {
-            Text(text = "This is the Detail's View! todoId: ${todoId}")
-            Text(text = "Text: ${todo?.text ?: "Not set!"}")
-        }
+        Text(text = "To-Do Details",
+            fontSize = 32.sp,
+            modifier = Modifier
+                .padding(top = 20.dp, bottom = 20.dp))
+        Text(text = "Title", fontWeight = FontWeight.Bold)
+        Text(text = "${todo?.text ?: "Not set!"}")
     }
 }
