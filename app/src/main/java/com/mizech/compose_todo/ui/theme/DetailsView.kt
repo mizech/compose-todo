@@ -2,6 +2,7 @@ package com.mizech.compose_todo.ui.theme
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,6 +24,7 @@ fun DetailsView(todoId: String, roomDb: AppDatabase) {
     var todo by remember {
         mutableStateOf<Todo?>(null)
     }
+
     CoroutineScope(Dispatchers.IO).launch {
         var result = roomDb.todoDao().selectById(todoId.toInt())
         withContext(Dispatchers.Main) {
@@ -38,6 +40,14 @@ fun DetailsView(todoId: String, roomDb: AppDatabase) {
             modifier = Modifier
                 .padding(top = 20.dp, bottom = 20.dp))
         Text(text = "Title", fontWeight = FontWeight.Bold)
-        Text(text = "${todo?.text ?: "Not set!"}")
+        Text(text = "${todo?.text ?: "Not set!"}",
+            modifier = Modifier.padding(bottom = 20.dp))
+        Text(text = "To-Do is done", fontWeight = FontWeight.Bold)
+        Checkbox(
+            checked = todo?.isDone ?: false,
+            onCheckedChange = {
+                todo?.isDone = !(todo?.isDone)!!
+            }
+        )
     }
 }
