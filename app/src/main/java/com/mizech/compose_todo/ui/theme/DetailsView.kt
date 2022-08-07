@@ -43,6 +43,12 @@ fun DetailsView(todoId: String, roomDb: AppDatabase) {
         Text(text = "${todo?.text ?: "Not set!"}",
             modifier = Modifier.padding(bottom = 20.dp))
         Text(text = "To-Do is done", fontWeight = FontWeight.Bold)
+        /*
+            Todo:
+             - Toggle isDone
+             - Add a back-button
+             - Add Update-functionality
+         */
         Checkbox(
             checked = todo?.isDone ?: false,
             onCheckedChange = {
