@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
                         composable("details/{todoId}") {
                             val todoId = it.arguments?.get("todoId")!!
 
-                            DetailsView(todoId = "${todoId}")
+                            DetailsView(todoId = "${todoId}", roomDb = roomDb)
                         }
                     }
                 }
