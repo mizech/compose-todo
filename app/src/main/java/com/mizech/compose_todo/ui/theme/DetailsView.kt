@@ -27,8 +27,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
     var todo by remember {
         mutableStateOf<Todo?>(null)
     }
-    var tmpIsDone = remember { mutableStateOf(true) }
-
+   
     CoroutineScope(Dispatchers.IO).launch {
         var result = roomDb.todoDao().selectById(todoId.toInt())
         withContext(Dispatchers.Main) {
@@ -68,16 +67,21 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         Text(text = "${todo?.text ?: "Not set!"}",
             modifier = Modifier.padding(bottom = 20.dp))
         Text(text = "To-Do is done", fontWeight = FontWeight.Bold)
-        /*
-            Todo:
-             - Toggle isDone
-             - Add Update-functionality
-         */
         Checkbox(
-            checked = tmpIsDone.value,
+            checked = todo?.isDone ?: false,
             onCheckedChange = {
-                tmpIsDone.value = it
+                todo?.isDone = it
+                CoroutineScope(Dispatchers.IO).launch {
+                    roomDb.todoDao().update(todo!!)
+                }
             }
         )
+        Button(onClick = {
+            CoroutineScope(Dispatchers.IO).launch {
+                roomDb.todoDao().update(todo!!)
+            }
+        }) {
+            Text("Update")
+        }
     }
 }
