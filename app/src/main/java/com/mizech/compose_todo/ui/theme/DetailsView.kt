@@ -49,7 +49,11 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 }
                 Button(onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
-                        // roomDb.todoDao().deleteAll()
+                        roomDb.todoDao().deleteById(todoId.toInt())
+
+                        withContext(Dispatchers.Main) {
+                            navigator.popBackStack()
+                        }
                     }
                 }) {
                     Text("Delete Todo")
@@ -67,7 +71,6 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         /*
             Todo:
              - Toggle isDone
-             - Add a back-button
              - Add Update-functionality
          */
         Checkbox(
