@@ -2,6 +2,7 @@ package com.mizech.compose_todo.ui.theme
 
 import android.annotation.SuppressLint
 import androidx.annotation.RestrictTo
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.room.RoomDatabase
@@ -78,7 +80,9 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
             items(todos.count()) { index ->
                 Card(onClick = {
                     navigator.navigate("details/${todos.get(index).id}")
-                }, elevation = 5.dp) {
+                }, elevation = 5.dp,
+                    border = BorderStroke(3.dp,
+                        SolidColor(if (todos[index].isDone)  Color.Green else Color.Red))) {
                     Text(
                         text = todos.get(index).text,
                         modifier = Modifier.padding(all = 10.dp)

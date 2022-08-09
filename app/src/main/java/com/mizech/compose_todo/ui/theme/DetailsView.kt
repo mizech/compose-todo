@@ -27,7 +27,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
     var todo by remember {
         mutableStateOf<Todo?>(null)
     }
-   
+
     CoroutineScope(Dispatchers.IO).launch {
         var result = roomDb.todoDao().selectById(todoId.toInt())
         withContext(Dispatchers.Main) {
