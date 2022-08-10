@@ -41,6 +41,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally) {
+        // Todo: Confirm-Modal "Loeschen-Bestaetigen"
         TopAppBar(elevation = 4.dp, backgroundColor = Color.LightGray) {
             Button(onClick = {
                 CoroutineScope(Dispatchers.IO).launch {

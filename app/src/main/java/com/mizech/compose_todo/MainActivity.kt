@@ -57,12 +57,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-/*
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ComposetodoTheme {
-        MainView(navigator = NavController())
-    }
-}
- */

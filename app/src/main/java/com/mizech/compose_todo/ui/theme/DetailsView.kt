@@ -78,7 +78,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         Text(text = "${todo?.notes ?: "Not set!"}",
             modifier = Modifier.padding(bottom = 20.dp))
         // --------------------------------------------------
-        
+
         Text(text = "To-Do is done", fontWeight = FontWeight.Bold)
         Checkbox(
             checked = todo?.isDone ?: false,
