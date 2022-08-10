@@ -1,6 +1,7 @@
 package com.mizech.compose_todo.ui.theme
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
@@ -64,7 +65,10 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
             modifier = Modifier
                 .padding(top = 20.dp, bottom = 20.dp))
         Text(text = "Title", fontWeight = FontWeight.Bold)
-        Text(text = "${todo?.text ?: "Not set!"}",
+        Text(text = "${todo?.title ?: "Not set!"}",
+            modifier = Modifier.padding(bottom = 20.dp))
+        Text(text = "Notes", fontWeight = FontWeight.Bold)
+        Text(text = "${todo?.notes ?: "Not set!"}",
             modifier = Modifier.padding(bottom = 20.dp))
         Text(text = "To-Do is done", fontWeight = FontWeight.Bold)
         Checkbox(
