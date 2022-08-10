@@ -64,15 +64,21 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         TextField(value = "${todo?.title ?: "Not set!"}",
             onValueChange = {
             todo?.title = it
+            CoroutineScope(Dispatchers.IO).launch {
+                roomDb.todoDao().update(todo!!)
+            }
         }, label = {
             Text(text = "Title")
         }, placeholder = {
             Text(text = "To-Do title")
         }, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
 
+        // Todo: Von Text zu TextField aendern.
         Text(text = "Notes", fontWeight = FontWeight.Bold)
         Text(text = "${todo?.notes ?: "Not set!"}",
             modifier = Modifier.padding(bottom = 20.dp))
+        // --------------------------------------------------
+        
         Text(text = "To-Do is done", fontWeight = FontWeight.Bold)
         Checkbox(
             checked = todo?.isDone ?: false,
