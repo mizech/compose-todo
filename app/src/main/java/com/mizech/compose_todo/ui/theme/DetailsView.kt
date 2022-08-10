@@ -3,10 +3,7 @@ package com.mizech.compose_todo.ui.theme
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Checkbox
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,9 +61,15 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
             fontSize = 32.sp,
             modifier = Modifier
                 .padding(top = 20.dp, bottom = 20.dp))
-        Text(text = "Title", fontWeight = FontWeight.Bold)
-        Text(text = "${todo?.title ?: "Not set!"}",
-            modifier = Modifier.padding(bottom = 20.dp))
+        TextField(value = "${todo?.title ?: "Not set!"}",
+            onValueChange = {
+            todo?.title = it
+        }, label = {
+            Text(text = "Title")
+        }, placeholder = {
+            Text(text = "To-Do title")
+        }, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
+
         Text(text = "Notes", fontWeight = FontWeight.Bold)
         Text(text = "${todo?.notes ?: "Not set!"}",
             modifier = Modifier.padding(bottom = 20.dp))
