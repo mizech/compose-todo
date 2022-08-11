@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,6 +23,7 @@ import kotlinx.coroutines.withContext
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
+    val context = LocalContext.current
     var todo by remember {
         mutableStateOf<Todo?>(null)
     }
@@ -63,22 +65,29 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 .padding(top = 20.dp, bottom = 20.dp))
         TextField(value = "${todo?.title ?: "Not set!"}",
             onValueChange = {
-            todo?.title = it
-            CoroutineScope(Dispatchers.IO).launch {
-                roomDb.todoDao().update(todo!!)
+                Toast.makeText(context, "Title updated", Toast.LENGTH_LONG).show();
+                todo?.title = it
+                CoroutineScope(Dispatchers.IO).launch {
+                    roomDb.todoDao().update(todo!!)
             }
         }, label = {
             Text(text = "Title")
         }, placeholder = {
             Text(text = "To-Do title")
         }, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
-
-        // Todo: Von Text zu TextField aendern.
-        Text(text = "Notes", fontWeight = FontWeight.Bold)
-        Text(text = "${todo?.notes ?: "Not set!"}",
-            modifier = Modifier.padding(bottom = 20.dp))
-        // --------------------------------------------------
-
+        TextField(value = "${todo?.notes ?: "Not set!"}",
+            onValueChange = {
+                Toast.makeText(context, "Notes updated", Toast.LENGTH_LONG).show();
+                todo?.notes = it
+                CoroutineScope(Dispatchers.IO).launch {
+                    roomDb.todoDao().update(todo!!)
+                }
+            }, label = {
+                Text(text = "Notes")
+            }, placeholder = {
+                Text(text = "Additional information")
+            }, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
+        // Todo: As Row ... -----------------------
         Text(text = "To-Do is done", fontWeight = FontWeight.Bold)
         Checkbox(
             checked = todo?.isDone ?: false,
@@ -89,6 +98,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 }
             }
         )
+        // --------------------------------------------------
         Button(onClick = {
             CoroutineScope(Dispatchers.IO).launch {
                 roomDb.todoDao().update(todo!!)
