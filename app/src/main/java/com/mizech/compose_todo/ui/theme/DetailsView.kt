@@ -101,7 +101,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
             CoroutineScope(Dispatchers.IO).launch {
                 roomDb.todoDao().update(todo!!)
             }
-            Toast.makeText(context, "Title updated", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Updated!", Toast.LENGTH_LONG).show();
         }) {
             Text("Update")
         }
