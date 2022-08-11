@@ -65,7 +65,6 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 .padding(top = 20.dp, bottom = 20.dp))
         TextField(value = "${todo?.title ?: "Not set!"}",
             onValueChange = {
-                Toast.makeText(context, "Title updated", Toast.LENGTH_LONG).show();
                 todo?.title = it
                 CoroutineScope(Dispatchers.IO).launch {
                     roomDb.todoDao().update(todo!!)
@@ -77,7 +76,6 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         }, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
         TextField(value = "${todo?.notes ?: "Not set!"}",
             onValueChange = {
-                Toast.makeText(context, "Notes updated", Toast.LENGTH_LONG).show();
                 todo?.notes = it
                 CoroutineScope(Dispatchers.IO).launch {
                     roomDb.todoDao().update(todo!!)
@@ -103,6 +101,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
             CoroutineScope(Dispatchers.IO).launch {
                 roomDb.todoDao().update(todo!!)
             }
+            Toast.makeText(context, "Title updated", Toast.LENGTH_LONG).show();
         }) {
             Text("Update")
         }
