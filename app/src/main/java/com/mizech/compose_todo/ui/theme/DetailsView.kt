@@ -86,16 +86,20 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 Text(text = "Additional information")
             }, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
         // Todo: As Row ... -----------------------
-        Text(text = "To-Do is done", fontWeight = FontWeight.Bold)
-        Checkbox(
-            checked = todo?.isDone ?: false,
-            onCheckedChange = {
-                todo?.isDone = it
-                CoroutineScope(Dispatchers.IO).launch {
-                    roomDb.todoDao().update(todo!!)
+        Row(modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically) {
+            Text(text = "To-Do is done", fontWeight = FontWeight.Bold)
+            Checkbox(
+                checked = todo?.isDone ?: false,
+                onCheckedChange = {
+                    todo?.isDone = it
+                    CoroutineScope(Dispatchers.IO).launch {
+                        roomDb.todoDao().update(todo!!)
+                    }
                 }
-            }
-        )
+            )
+        }
         // --------------------------------------------------
         Button(onClick = {
             CoroutineScope(Dispatchers.IO).launch {
