@@ -1,6 +1,7 @@
 package com.mizech.compose_todo.ui.theme
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,6 +24,7 @@ import kotlinx.coroutines.*
 @SuppressLint("UnrememberedMutableState", "CoroutineCreationDuringComposition")
 @Composable
 fun MainView(navigator: NavController, roomDb: AppDatabase) {
+    val context = LocalContext.current
     var todos = remember {
         mutableStateListOf<Todo>()
     }
@@ -87,7 +90,6 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
     }
 
     Column(horizontalAlignment = Alignment.Start) {
-        // Todo: Confirm-Modal "Loeschen-Bestaetigen"
         TopAppBar(elevation = 4.dp, backgroundColor = Color.LightGray) {
             Button(onClick = {
                 isDelConfirmOpen = true
@@ -105,6 +107,13 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                 Text(text = "What has to be done?")
             }, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
             Button(modifier = Modifier.padding(bottom = 10.dp), onClick = {
+                if (currentTitle.length < 3) {
+                    Toast.makeText(context,
+                        "Please provide a title with at least 3 characters.",
+                        Toast.LENGTH_LONG).show();
+                    return@Button
+                }
+
                 val todo = Todo()
                 todo.title = currentTitle
 

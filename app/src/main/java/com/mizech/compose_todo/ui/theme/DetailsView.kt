@@ -38,6 +38,9 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
     Column(modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally) {
+        /*
+            Todo: Confirm Alert Dialog erstellen.
+         */
         TopAppBar( elevation = 4.dp, backgroundColor = Color.LightGray) {
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween) {
@@ -85,7 +88,6 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
             }, placeholder = {
                 Text(text = "Additional information")
             }, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
-        // Todo: As Row ... -----------------------
         Row(modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically) {
