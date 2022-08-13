@@ -101,7 +101,8 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
             )
         }
         // --------------------------------------------------
-        Button(onClick = {
+        Button(modifier = Modifier.padding(top = 25.dp),
+            onClick = {
             CoroutineScope(Dispatchers.IO).launch {
                 roomDb.todoDao().update(todo!!)
             }
