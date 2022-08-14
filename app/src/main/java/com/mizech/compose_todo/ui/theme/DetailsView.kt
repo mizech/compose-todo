@@ -35,12 +35,60 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         }
     }
 
+    var isDelConfirmOpen by remember {
+        mutableStateOf(false)
+    }
+
+    if (isDelConfirmOpen) {
+        AlertDialog(
+            onDismissRequest = {
+                isDelConfirmOpen = false
+            },
+            title = {
+                Text(text = "Todo will be removed",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold)
+            },
+            text = {
+                Column() {
+                    Text("Do you want to continue?",
+                        fontSize = 18.sp)
+                }
+            },
+            buttons = {
+                Row(
+                    modifier = Modifier.padding(all = 8.dp).fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Button(
+                        onClick = {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                roomDb.todoDao().deleteById(todoId.toInt())
+
+                                withContext(Dispatchers.Main) {
+                                    navigator.popBackStack()
+                                }
+                            }
+                            isDelConfirmOpen = false
+                        }
+                    ) {
+                        Text("Continue")
+                    }
+                    Button(
+                        onClick = {
+                            isDelConfirmOpen = false
+                        }
+                    ) {
+                        Text("Cancel")
+                    }
+                }
+            }
+        )
+    }
+
     Column(modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally) {
-        /*
-            Todo: Confirm Alert Dialog erstellen.
-         */
         TopAppBar( elevation = 4.dp, backgroundColor = Color.LightGray) {
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween) {
@@ -50,13 +98,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                     Text(" <- ")
                 }
                 Button(onClick = {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        roomDb.todoDao().deleteById(todoId.toInt())
-
-                        withContext(Dispatchers.Main) {
-                            navigator.popBackStack()
-                        }
-                    }
+                    isDelConfirmOpen = true
                 }) {
                     Text("Delete Todo")
                 }
@@ -105,10 +147,16 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         // --------------------------------------------------
         Button(modifier = Modifier.padding(top = 25.dp),
             onClick = {
-            CoroutineScope(Dispatchers.IO).launch {
-                roomDb.todoDao().update(todo!!)
-            }
-            Toast.makeText(context, "Updated!", Toast.LENGTH_LONG).show();
+                if ((todo?.title?.length ?: 0) < 3) {
+                    Toast.makeText(context,
+                        "Please provide a title with at least 3 characters.",
+                        Toast.LENGTH_LONG).show();
+                } else {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        roomDb.todoDao().update(todo!!)
+                    }
+                    Toast.makeText(context, "Updated!", Toast.LENGTH_LONG).show();
+                }
         }) {
             Text("Update")
         }

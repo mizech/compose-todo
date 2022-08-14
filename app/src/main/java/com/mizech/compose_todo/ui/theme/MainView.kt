@@ -111,17 +111,16 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                     Toast.makeText(context,
                         "Please provide a title with at least 3 characters.",
                         Toast.LENGTH_LONG).show();
-                    return@Button
+                } else {
+                    val todo = Todo()
+                    todo.title = currentTitle
+
+                    CoroutineScope(Dispatchers.IO).launch {
+                        roomDb.todoDao().insertAll(todo)
+                    }
+
+                    currentTitle = ""
                 }
-
-                val todo = Todo()
-                todo.title = currentTitle
-
-                CoroutineScope(Dispatchers.IO).launch {
-                    roomDb.todoDao().insertAll(todo)
-                }
-
-                currentTitle = ""
             }) {
                 Text("Insert new To-Do")
             }
