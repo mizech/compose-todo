@@ -92,6 +92,9 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
     }
 
     Column(horizontalAlignment = Alignment.Start) {
+        /*
+            todo: Use Image-Icons
+         */
         TopAppBar(elevation = 4.dp, backgroundColor = Color.LightGray) {
             Button(onClick = {
                 isDelConfirmOpen = true
