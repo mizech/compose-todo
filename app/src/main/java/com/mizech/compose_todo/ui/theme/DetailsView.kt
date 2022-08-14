@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -104,10 +105,12 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 }
             }
         }
-        Text(text = "To-Do Details",
-            fontSize = 32.sp,
+        Text(text = "All Details",
             modifier = Modifier
-                .padding(top = 20.dp, bottom = 20.dp))
+                .fillMaxWidth()
+                .padding(top = 12.dp),
+            textAlign = TextAlign.Center,
+            fontSize = 28.sp,)
         TextField(value = "${todo?.title ?: "Not set!"}",
             onValueChange = {
                 todo?.title = it
@@ -144,7 +147,6 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 }
             )
         }
-        // --------------------------------------------------
         Button(modifier = Modifier.padding(top = 25.dp),
             onClick = {
                 if ((todo?.title?.length ?: 0) < 3) {

@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -13,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -97,6 +99,11 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                 Text("Delete all Todos")
             }
         }
+        Text(text = "What has to be done?",
+            fontSize = 28.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+                .padding(top = 12.dp))
         Column(modifier = Modifier.fillMaxSize()
             .padding(start = 25.dp, end = 25.dp)) {
             TextField(value = currentTitle, onValueChange = {
@@ -130,6 +137,8 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                     Card(onClick = {
                         navigator.navigate("details/${todos.get(index).id}")
                     }, elevation = 5.dp,
+                        shape = RoundedCornerShape(10.dp),
+                        modifier = Modifier.fillMaxWidth(),
                         border = BorderStroke(3.dp,
                             SolidColor(if (todos[index].isDone)  Color.Green else Color.Red))) {
                         Text(
