@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,17 +32,21 @@ import kotlinx.coroutines.*
 @SuppressLint("UnrememberedMutableState", "CoroutineCreationDuringComposition")
 @Composable
 fun MainView(navigator: NavController, roomDb: AppDatabase) {
+    suspend fun selectAllTodos(todos: SnapshotStateList<Todo>) {
+        var existing = roomDb.todoDao().selectAllTodos()
+        withContext(Dispatchers.Main) {
+            todos.clear()
+            todos.addAll(existing)
+        }
+    }
+
     val context = LocalContext.current
     var todos = remember {
         mutableStateListOf<Todo>()
     }
 
     CoroutineScope(Dispatchers.IO).launch {
-        var existing = roomDb.todoDao().selectAllTodos()
-        withContext(Dispatchers.Main) {
-            todos.clear()
-            todos.addAll(existing)
-        }
+        selectAllTodos(todos)
     }
 
     var currentTitle by remember {
@@ -106,25 +111,19 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                 IconButton(onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
                         roomDb.todoDao().deleteByDone()
-
-                        var existing = roomDb.todoDao().selectAllTodos()
-                        withContext(Dispatchers.Main) {
-                            todos.clear()
-                            todos.addAll(existing)
-                        }
+                        selectAllTodos(todos)
                     }
-                }) {
+                }, Modifier.padding(end = 25.dp)) {
                     Icon(Icons.Rounded.Delete,
-                        contentDescription = "Delete todos with status is done")
+                        contentDescription = "Delete todos with status 'is done'")
                 }
                 IconButton(onClick = {
                     isDelConfirmOpen = true
-                }) {
+                }, Modifier.padding(end = 15.dp)) {
                     Icon(Icons.Rounded.Warning,
                         contentDescription = "Delete all todos")
                 }
             }
-
         })
         Column(modifier = Modifier
             .fillMaxSize()
@@ -135,8 +134,10 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                 Text(text = "Add new To-Do")
             }, placeholder = {
                 Text(text = "What has to be done?")
-            }, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
-            Button(modifier = Modifier.padding(bottom = 10.dp), onClick = {
+            }, modifier = Modifier.fillMaxWidth()
+                .padding(top = 15.dp, bottom = 10.dp))
+            Button(modifier = Modifier.padding(bottom = 10.dp)
+                .fillMaxWidth(), onClick = {
                 if (currentTitle.length < 3) {
                     Toast.makeText(context,
                         "Please provide a title with at least 3 characters.",
