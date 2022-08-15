@@ -90,6 +90,9 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
     Column(modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally) {
+        /*
+            Todo: TopAppBar mit Icon-Buttons
+         */
         TopAppBar( elevation = 4.dp, backgroundColor = Color.LightGray) {
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween) {

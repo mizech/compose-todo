@@ -108,6 +108,9 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                           Text(text = "To-Dos")
         }, actions = {
             Row(horizontalArrangement = Arrangement.SpaceAround) {
+                /*
+                    Todo: Alert-Dialog vor dem Loeschen.
+                 */
                 IconButton(onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
                         roomDb.todoDao().deleteByDone()
