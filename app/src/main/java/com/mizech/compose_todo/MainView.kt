@@ -1,12 +1,17 @@
 package com.mizech.compose_todo.ui.theme
 
 import android.annotation.SuppressLint
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,7 +70,9 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
             },
             buttons = {
                 Row(
-                    modifier = Modifier.padding(all = 8.dp).fillMaxWidth(),
+                    modifier = Modifier
+                        .padding(all = 8.dp)
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Button(
@@ -93,21 +100,36 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
 
     Column(horizontalAlignment = Alignment.Start) {
         /*
-            todo: Use Image-Icons
-         */
         TopAppBar(elevation = 4.dp, backgroundColor = Color.LightGray) {
             Button(onClick = {
                 isDelConfirmOpen = true
             }, modifier = Modifier.padding(start = 25.dp)) {
                 Text("Delete all Todos")
             }
+            IconButton(onClick = { /*TODO*/ }) {
+                // Icon(Icons.Filled.Delete, "", tint = Color.White)
+                // Icon(Icons.Filled.ArrowBack, "", tint = Color.White)
+                Icon(Icons.Filled.Done, "", tint = Color.White)
+            }
         }
-        Text(text = "What has to be done?",
-            fontSize = 28.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-                .padding(top = 12.dp))
-        Column(modifier = Modifier.fillMaxSize()
+        */
+        TopAppBar(title = {
+                          Text(text = "To-Dos")
+        }, actions = {
+            Row(horizontalArrangement = Arrangement.SpaceAround) {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(Icons.Rounded.Delete, contentDescription = "")
+                }
+                IconButton(onClick = {
+                    isDelConfirmOpen = true
+                }) {
+                    Icon(Icons.Rounded.Warning, contentDescription = "")
+                }
+            }
+
+        })
+        Column(modifier = Modifier
+            .fillMaxSize()
             .padding(start = 25.dp, end = 25.dp)) {
             TextField(value = currentTitle, onValueChange = {
                 currentTitle = it
