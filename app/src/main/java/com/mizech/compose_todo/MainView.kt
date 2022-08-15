@@ -99,31 +99,29 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
     }
 
     Column(horizontalAlignment = Alignment.Start) {
-        /*
-        TopAppBar(elevation = 4.dp, backgroundColor = Color.LightGray) {
-            Button(onClick = {
-                isDelConfirmOpen = true
-            }, modifier = Modifier.padding(start = 25.dp)) {
-                Text("Delete all Todos")
-            }
-            IconButton(onClick = { /*TODO*/ }) {
-                // Icon(Icons.Filled.Delete, "", tint = Color.White)
-                // Icon(Icons.Filled.ArrowBack, "", tint = Color.White)
-                Icon(Icons.Filled.Done, "", tint = Color.White)
-            }
-        }
-        */
         TopAppBar(title = {
                           Text(text = "To-Dos")
         }, actions = {
             Row(horizontalArrangement = Arrangement.SpaceAround) {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(Icons.Rounded.Delete, contentDescription = "")
+                IconButton(onClick = {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        roomDb.todoDao().deleteByDone()
+
+                        var existing = roomDb.todoDao().selectAllTodos()
+                        withContext(Dispatchers.Main) {
+                            todos.clear()
+                            todos.addAll(existing)
+                        }
+                    }
+                }) {
+                    Icon(Icons.Rounded.Delete,
+                        contentDescription = "Delete todos with status is done")
                 }
                 IconButton(onClick = {
                     isDelConfirmOpen = true
                 }) {
-                    Icon(Icons.Rounded.Warning, contentDescription = "")
+                    Icon(Icons.Rounded.Warning,
+                        contentDescription = "Delete all todos")
                 }
             }
 
