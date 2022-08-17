@@ -105,7 +105,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
 
     Column(horizontalAlignment = Alignment.Start) {
         TopAppBar(title = {
-                          Text(text = "To-Dos")
+                          Text(text = "All To-Dos")
         }, actions = {
             Row(horizontalArrangement = Arrangement.SpaceAround) {
                 /*

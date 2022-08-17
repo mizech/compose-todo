@@ -95,7 +95,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally) {
         TopAppBar(title = {
-            Text(text = "Details")
+            Text(text = "To-Do Details")
         }, actions = {
             Row(horizontalArrangement = Arrangement.SpaceAround) {
                 IconButton(onClick = {
@@ -112,18 +112,12 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 }
             }
         })
-        Text(text = "All Details",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 12.dp),
-            textAlign = TextAlign.Center,
-            fontSize = 28.sp,)
         TextField(value = "${todo?.title ?: "Not set!"}",
             onValueChange = {
                 todo?.title = it
                 CoroutineScope(Dispatchers.IO).launch {
                     roomDb.todoDao().update(todo!!)
-            }
+                }
         }, label = {
             Text(text = "Title")
         }, placeholder = {
