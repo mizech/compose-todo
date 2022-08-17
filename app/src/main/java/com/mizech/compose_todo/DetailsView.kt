@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -90,24 +94,24 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
     Column(modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally) {
-        /*
-            Todo: TopAppBar mit Icon-Buttons
-         */
-        TopAppBar( elevation = 4.dp, backgroundColor = Color.LightGray) {
-            Row(modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                Button(onClick = {
-                    navigator.popBackStack()
-                }) {
-                    Text(" <- ")
-                }
-                Button(onClick = {
+        TopAppBar(title = {
+            Text(text = "Details")
+        }, actions = {
+            Row(horizontalArrangement = Arrangement.SpaceAround) {
+                IconButton(onClick = {
                     isDelConfirmOpen = true
-                }) {
-                    Text("Delete Todo")
+                }, Modifier.padding(end = 15.dp)) {
+                    Icon(Icons.Rounded.Delete,
+                        contentDescription = "Delete all todos")
+                }
+                IconButton(onClick = {
+                    navigator.popBackStack()
+                }, Modifier.padding(end = 25.dp)) {
+                    Icon(Icons.Rounded.ArrowBack,
+                        contentDescription = "Delete todos with status 'is done'")
                 }
             }
-        }
+        })
         Text(text = "All Details",
             modifier = Modifier
                 .fillMaxWidth()

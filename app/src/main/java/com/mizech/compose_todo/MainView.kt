@@ -165,7 +165,8 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                         navigator.navigate("details/${todos.get(index).id}")
                     }, elevation = 5.dp,
                         shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(bottom = 10.dp),
                         border = BorderStroke(3.dp,
                             SolidColor(if (todos[index].isDone)  Color.Green else Color.Red))) {
                         Text(
