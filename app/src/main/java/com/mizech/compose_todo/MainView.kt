@@ -19,12 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.mizech.compose_todo.AppDatabase
+import com.mizech.compose_todo.R
 import com.mizech.compose_todo.Todo
 import kotlinx.coroutines.*
 
@@ -63,13 +65,14 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                 isDelConfirmOpen = false
             },
             title = {
-                Text(text = "All Todos will be removed",
+                Text(text = stringResource(R.string.conf_del_title),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold)
             },
             text = {
                 Column() {
-                    Text("Do you want to continue?",
+                    Text(
+                        stringResource(R.string.conf_del_question),
                         fontSize = 18.sp)
                 }
             },
@@ -89,14 +92,14 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                             isDelConfirmOpen = false
                         }
                     ) {
-                        Text("Continue")
+                        Text(stringResource(R.string.conf_del_yes))
                     }
                     Button(
                         onClick = {
                             isDelConfirmOpen = false
                         }
                     ) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.conf_del_no))
                     }
                 }
             }
@@ -137,9 +140,11 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                 Text(text = "Add new To-Do")
             }, placeholder = {
                 Text(text = "What has to be done?")
-            }, modifier = Modifier.fillMaxWidth()
+            }, modifier = Modifier
+                .fillMaxWidth()
                 .padding(top = 15.dp, bottom = 10.dp))
-            Button(modifier = Modifier.padding(bottom = 10.dp)
+            Button(modifier = Modifier
+                .padding(bottom = 10.dp)
                 .fillMaxWidth(), onClick = {
                 if (currentTitle.length < 3) {
                     Toast.makeText(context,
@@ -156,7 +161,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                     currentTitle = ""
                 }
             }) {
-                Text("Insert new To-Do")
+                Text(stringResource(R.string.button_insert))
             }
 
             LazyColumn(horizontalAlignment = Alignment.Start) {
@@ -165,7 +170,8 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                         navigator.navigate("details/${todos.get(index).id}")
                     }, elevation = 5.dp,
                         shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .padding(bottom = 10.dp),
                         border = BorderStroke(3.dp,
                             SolidColor(if (todos[index].isDone)  Color.Green else Color.Red))) {
