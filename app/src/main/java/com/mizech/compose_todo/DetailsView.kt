@@ -13,12 +13,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.mizech.compose_todo.AppDatabase
+import com.mizech.compose_todo.ConfirmAlertDialog
+import com.mizech.compose_todo.R
 import com.mizech.compose_todo.Todo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,55 +43,22 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         }
     }
 
-    var isDelConfirmOpen by remember {
+    var isDelConfirmOpen = remember {
         mutableStateOf(false)
     }
 
-    if (isDelConfirmOpen) {
-        AlertDialog(
-            onDismissRequest = {
-                isDelConfirmOpen = false
-            },
-            title = {
-                Text(text = "Todo will be removed",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold)
-            },
-            text = {
-                Column() {
-                    Text("Do you want to continue?",
-                        fontSize = 18.sp)
-                }
-            },
-            buttons = {
-                Row(
-                    modifier = Modifier.padding(all = 8.dp).fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Button(
-                        onClick = {
-                            CoroutineScope(Dispatchers.IO).launch {
-                                roomDb.todoDao().deleteById(todoId.toInt())
+    if (isDelConfirmOpen.value) {
+        ConfirmAlertDialog(isDelConfirmOpen = isDelConfirmOpen,
+            messageText = "Todo will be removed"
+        ) {
+            CoroutineScope(Dispatchers.IO).launch {
+                roomDb.todoDao().deleteById(todoId.toInt())
 
-                                withContext(Dispatchers.Main) {
-                                    navigator.popBackStack()
-                                }
-                            }
-                            isDelConfirmOpen = false
-                        }
-                    ) {
-                        Text("Continue")
-                    }
-                    Button(
-                        onClick = {
-                            isDelConfirmOpen = false
-                        }
-                    ) {
-                        Text("Cancel")
-                    }
+                withContext(Dispatchers.Main) {
+                    navigator.popBackStack()
                 }
             }
-        )
+        }
     }
 
     Column(modifier = Modifier.fillMaxSize(),
@@ -99,7 +69,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         }, actions = {
             Row(horizontalArrangement = Arrangement.SpaceAround) {
                 IconButton(onClick = {
-                    isDelConfirmOpen = true
+                    isDelConfirmOpen.value = true
                 }, Modifier.padding(end = 15.dp)) {
                     Icon(Icons.Rounded.Delete,
                         contentDescription = "Delete all todos")

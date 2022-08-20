@@ -1,7 +1,6 @@
 package com.mizech.compose_todo.ui.theme
 
 import android.annotation.SuppressLint
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -9,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.runtime.*
@@ -20,12 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.mizech.compose_todo.AppDatabase
+import com.mizech.compose_todo.ConfirmAlertDialog
 import com.mizech.compose_todo.R
 import com.mizech.compose_todo.Todo
 import kotlinx.coroutines.*
@@ -55,55 +51,32 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
         mutableStateOf("")
     }
 
-    var isDelConfirmOpen by remember {
+    var isDelAllConfirmOpen = remember {
         mutableStateOf(false)
     }
 
-    if (isDelConfirmOpen) {
-        AlertDialog(
-            onDismissRequest = {
-                isDelConfirmOpen = false
-            },
-            title = {
-                Text(text = stringResource(R.string.conf_del_title),
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold)
-            },
-            text = {
-                Column() {
-                    Text(
-                        stringResource(R.string.conf_del_question),
-                        fontSize = 18.sp)
-                }
-            },
-            buttons = {
-                Row(
-                    modifier = Modifier
-                        .padding(all = 8.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Button(
-                        onClick = {
-                            CoroutineScope(Dispatchers.IO).launch {
-                                roomDb.todoDao().deleteAll()
-                                todos.clear()
-                            }
-                            isDelConfirmOpen = false
-                        }
-                    ) {
-                        Text(stringResource(R.string.conf_del_yes))
-                    }
-                    Button(
-                        onClick = {
-                            isDelConfirmOpen = false
-                        }
-                    ) {
-                        Text(stringResource(R.string.conf_del_no))
-                    }
-                }
+    var isDelDoneConfirmOpen = remember {
+        mutableStateOf(false)
+    }
+
+    if (isDelAllConfirmOpen.value) {
+        ConfirmAlertDialog(isDelConfirmOpen = isDelAllConfirmOpen,
+                            messageText = stringResource(R.string.conf_del_title)) {
+            CoroutineScope(Dispatchers.IO).launch {
+                roomDb.todoDao().deleteAll()
+                todos.clear()
             }
-        )
+        }
+    }
+
+    if (isDelDoneConfirmOpen.value) {
+        ConfirmAlertDialog(isDelConfirmOpen = isDelDoneConfirmOpen,
+            messageText = "All Todos with status is done will be removed") {
+            CoroutineScope(Dispatchers.IO).launch {
+                roomDb.todoDao().deleteByDone()
+                selectAllTodos(todos)
+            }
+        }
     }
 
     Column(horizontalAlignment = Alignment.Start) {
@@ -111,20 +84,14 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                           Text(text = "All To-Dos")
         }, actions = {
             Row(horizontalArrangement = Arrangement.SpaceAround) {
-                /*
-                    Todo: Alert-Dialog vor dem Loeschen.
-                 */
                 IconButton(onClick = {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        roomDb.todoDao().deleteByDone()
-                        selectAllTodos(todos)
-                    }
+                    isDelDoneConfirmOpen.value = true
                 }, Modifier.padding(end = 25.dp)) {
                     Icon(Icons.Rounded.Delete,
                         contentDescription = "Delete todos with status 'is done'")
                 }
                 IconButton(onClick = {
-                    isDelConfirmOpen = true
+                    isDelAllConfirmOpen.value = true
                 }, Modifier.padding(end = 15.dp)) {
                     Icon(Icons.Rounded.Warning,
                         contentDescription = "Delete all todos")
