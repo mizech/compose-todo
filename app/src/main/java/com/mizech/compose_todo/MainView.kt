@@ -61,7 +61,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
 
     if (isDelAllConfirmOpen.value) {
         ConfirmAlertDialog(isDelConfirmOpen = isDelAllConfirmOpen,
-                            messageText = stringResource(R.string.conf_del_title)) {
+                            messageText = stringResource(R.string.conf_del_all_title)) {
             CoroutineScope(Dispatchers.IO).launch {
                 roomDb.todoDao().deleteAll()
                 todos.clear()
@@ -71,7 +71,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
 
     if (isDelDoneConfirmOpen.value) {
         ConfirmAlertDialog(isDelConfirmOpen = isDelDoneConfirmOpen,
-            messageText = "All Todos with status is done will be removed") {
+            messageText = stringResource(R.string.conf_del_done_title)) {
             CoroutineScope(Dispatchers.IO).launch {
                 roomDb.todoDao().deleteByDone()
                 selectAllTodos(todos)
@@ -81,7 +81,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
 
     Column(horizontalAlignment = Alignment.Start) {
         TopAppBar(title = {
-                          Text(text = "All To-Dos")
+                          Text(text = stringResource(id = R.string.bar_title_details))
         }, actions = {
             Row(horizontalArrangement = Arrangement.SpaceAround) {
                 IconButton(onClick = {
@@ -128,9 +128,15 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                     currentTitle = ""
                 }
             }) {
+                /*
+                    todo: Disketten-Icon hinter dem Text.
+                */
                 Text(stringResource(R.string.button_insert))
             }
 
+            /*
+                todo: Zusaetzliche Attribute 'createdAt' und 'modifiedAt'
+             */
             LazyColumn(horizontalAlignment = Alignment.Start) {
                 items(todos.count()) { index ->
                     Card(onClick = {

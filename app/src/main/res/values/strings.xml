@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">compose-todo</string>
-    <string name="conf_del_title">All Todos will be removed</string>
+    <string name="conf_del_all_title">All Todos will be removed</string>
     <string name="conf_del_question">Do you want to continue?</string>
     <string name="conf_del_yes">Continue</string>
     <string name="conf_del_no">Cancel</string>
     <string name="button_insert">Insert new To-Do</string>
+    <string name="conf_del_done_title">All Todos with status is done will be removed</string>
+    <string name="bar_title_all">All To-Dos</string>
+    <string name="bar_title_details">To-Do Details</string>
 </resources>

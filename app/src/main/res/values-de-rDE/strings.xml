@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">compose-todo</string>
-    <string name="conf_del_title">Alle Aufgaben werden entfernt</string>
+    <string name="conf_del_all_title">Alle Aufgaben werden entfernt</string>
     <string name="conf_del_question">Wollen Sie fortfahren?</string>
     <string name="conf_del_yes">Fortfahren</string>
     <string name="conf_del_no">Abbrechen</string>
     <string name="button_insert">Neue Aufgabe anlegen</string>
+    <string name="conf_del_done_title">Alle erledigten Aufgaben werden entfernt</string>
+    <string name="bar_title_all">Alle Aufgaben</string>
+    <string name="bar_title_details">Details zur Aufgabe</string>
 </resources>

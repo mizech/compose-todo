@@ -65,7 +65,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally) {
         TopAppBar(title = {
-            Text(text = "To-Do Details")
+            Text(text = stringResource(id = R.string.bar_title_details))
         }, actions = {
             Row(horizontalArrangement = Arrangement.SpaceAround) {
                 IconButton(onClick = {
