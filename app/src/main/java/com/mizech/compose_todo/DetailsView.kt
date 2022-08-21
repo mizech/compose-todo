@@ -132,6 +132,9 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 }
             )
         }
+        /*
+            Aktualisieren-Button entfernen? Unnoetig?
+         */
         Button(modifier = Modifier.padding(top = 25.dp),
             onClick = {
                 if ((todo?.title?.length ?: 0) < 3) {
