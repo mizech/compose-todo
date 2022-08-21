@@ -39,6 +39,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
     }
 
     val context = LocalContext.current
+    val toastMinChars = stringResource(R.string.toast_min_chars)
     var todos = remember {
         mutableStateListOf<Todo>()
     }
@@ -88,13 +89,13 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                     isDelDoneConfirmOpen.value = true
                 }, Modifier.padding(end = 25.dp)) {
                     Icon(Icons.Rounded.Delete,
-                        contentDescription = "Delete todos with status 'is done'")
+                        contentDescription = stringResource(id = R.string.desc_del_all_done))
                 }
                 IconButton(onClick = {
                     isDelAllConfirmOpen.value = true
                 }, Modifier.padding(end = 15.dp)) {
                     Icon(Icons.Rounded.Warning,
-                        contentDescription = "Delete all todos")
+                        contentDescription = stringResource(id = R.string.desc_del_all))
                 }
             }
         })
@@ -104,9 +105,9 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
             TextField(value = currentTitle, onValueChange = {
                 currentTitle = it
             }, label = {
-                Text(text = "Add new To-Do")
+                Text(text = stringResource(id = R.string.text_add_todo))
             }, placeholder = {
-                Text(text = "What has to be done?")
+                Text(text = stringResource(id = R.string.placeholder_what_has))
             }, modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 15.dp, bottom = 10.dp))
@@ -115,7 +116,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                 .fillMaxWidth(), onClick = {
                 if (currentTitle.length < 3) {
                     Toast.makeText(context,
-                        "Please provide a title with at least 3 characters.",
+                        toastMinChars,
                         Toast.LENGTH_LONG).show();
                 } else {
                     val todo = Todo()

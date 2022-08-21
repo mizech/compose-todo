@@ -32,6 +32,8 @@ import kotlinx.coroutines.withContext
 @Composable
 fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
     val context = LocalContext.current
+    val toastMinChars = stringResource(R.string.toast_min_chars)
+    val toastUpdated = stringResource(R.string.toast_updated)
     var todo by remember {
         mutableStateOf<Todo?>(null)
     }
@@ -49,7 +51,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
 
     if (isDelConfirmOpen.value) {
         ConfirmAlertDialog(isDelConfirmOpen = isDelConfirmOpen,
-            messageText = "Todo will be removed"
+            messageText = stringResource(R.string.confirm_del_todo)
         ) {
             CoroutineScope(Dispatchers.IO).launch {
                 roomDb.todoDao().deleteById(todoId.toInt())
@@ -72,27 +74,33 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                     isDelConfirmOpen.value = true
                 }, Modifier.padding(end = 15.dp)) {
                     Icon(Icons.Rounded.Delete,
-                        contentDescription = "Delete all todos")
+                        contentDescription = stringResource(R.string.desc_del_todo))
                 }
                 IconButton(onClick = {
                     navigator.popBackStack()
                 }, Modifier.padding(end = 25.dp)) {
                     Icon(Icons.Rounded.ArrowBack,
-                        contentDescription = "Delete todos with status 'is done'")
+                        contentDescription = stringResource(R.string.desc_back_nav))
                 }
             }
         })
-        TextField(value = "${todo?.title ?: "Not set!"}",
+        TextField(
+            value = "${todo?.title ?: "Not set!"}",
             onValueChange = {
                 todo?.title = it
                 CoroutineScope(Dispatchers.IO).launch {
                     roomDb.todoDao().update(todo!!)
                 }
         }, label = {
-            Text(text = "Title")
+            Text(text = stringResource(R.string.text_title))
         }, placeholder = {
-            Text(text = "To-Do title")
-        }, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
+            Text(text = stringResource(R.string.placeholder_title))
+        }, modifier = Modifier
+                .padding(
+                    top = 15.dp, bottom = 10.dp,
+                    start = 25.dp, end = 25.dp
+                )
+                .fillMaxWidth())
         TextField(value = "${todo?.notes ?: "Not set!"}",
             onValueChange = {
                 todo?.notes = it
@@ -100,14 +108,20 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                     roomDb.todoDao().update(todo!!)
                 }
             }, label = {
-                Text(text = "Notes")
+                Text(text = stringResource(R.string.text_notes))
             }, placeholder = {
-                Text(text = "Additional information")
-            }, modifier = Modifier.padding(top = 15.dp, bottom = 10.dp))
+                Text(text = stringResource(R.string.text_additional_info))
+            }, modifier = Modifier
+                .padding(
+                    top = 15.dp, bottom = 10.dp,
+                    start = 25.dp, end = 25.dp
+                )
+                .fillMaxWidth())
         Row(modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "To-Do is done", fontWeight = FontWeight.Bold)
+            Text(text = stringResource(R.string.text_done),
+                fontWeight = FontWeight.Bold)
             Checkbox(
                 checked = todo?.isDone ?: false,
                 onCheckedChange = {
@@ -122,16 +136,16 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
             onClick = {
                 if ((todo?.title?.length ?: 0) < 3) {
                     Toast.makeText(context,
-                        "Please provide a title with at least 3 characters.",
+                        toastMinChars,
                         Toast.LENGTH_LONG).show();
                 } else {
                     CoroutineScope(Dispatchers.IO).launch {
                         roomDb.todoDao().update(todo!!)
                     }
-                    Toast.makeText(context, "Updated!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, toastUpdated, Toast.LENGTH_LONG).show();
                 }
         }) {
-            Text("Update")
+            Text(stringResource(R.string.button_update))
         }
     }
 }

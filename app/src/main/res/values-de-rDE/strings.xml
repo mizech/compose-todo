@@ -9,4 +9,19 @@
     <string name="conf_del_done_title">Alle erledigten Aufgaben werden entfernt</string>
     <string name="bar_title_all">Alle Aufgaben</string>
     <string name="bar_title_details">Details zur Aufgabe</string>
+    <string name="desc_del_all_done">Alle erledigten Aufgaben löschen</string>
+    <string name="desc_del_all">Alle Aufgaben löschen</string>
+    <string name="text_add_todo">Neue Aufgabe hinzufügen</string>
+    <string name="toast_min_chars">Für den Titel mindestens 3 Zeichen eingeben</string>
+    <string name="placeholder_what_has">Was muss erledigt werden?</string>
+    <string name="confirm_del_todo">Die Aufgabe wird gelöscht</string>
+    <string name="desc_del_todo">Aufgabe löschen</string>
+    <string name="desc_back_nav">Zurück zur Liste</string>
+    <string name="text_title">Titel</string>
+    <string name="placeholder_title">Aufgaben-Titel</string>
+    <string name="text_notes">Notizen</string>
+    <string name="text_done">Ist erledigt</string>
+    <string name="button_update">Aktualisieren</string>
+    <string name="toast_updated">Aufgabe wurde aktualisiert</string>
+    <string name="text_additional_info">Zusätzliche Informationen</string>
 </resources>
