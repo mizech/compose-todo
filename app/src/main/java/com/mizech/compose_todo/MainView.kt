@@ -124,9 +124,11 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
 
                     CoroutineScope(Dispatchers.IO).launch {
                         roomDb.todoDao().insertAll(todo)
-                    }
 
-                    currentTitle = ""
+                        withContext(Dispatchers.Main) {
+                            currentTitle = ""
+                        }
+                    }
                 }
             }) {
                 /*
