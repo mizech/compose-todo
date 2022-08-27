@@ -132,23 +132,5 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 }
             )
         }
-        /*
-            Aktualisieren-Button entfernen? Unnoetig?
-         */
-        Button(modifier = Modifier.padding(top = 25.dp),
-            onClick = {
-                if ((todo?.title?.length ?: 0) < 3) {
-                    Toast.makeText(context,
-                        toastMinChars,
-                        Toast.LENGTH_LONG).show();
-                } else {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        roomDb.todoDao().update(todo!!)
-                    }
-                    Toast.makeText(context, toastUpdated, Toast.LENGTH_LONG).show();
-                }
-        }) {
-            Text(stringResource(R.string.button_update))
-        }
     }
 }
