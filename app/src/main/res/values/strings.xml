@@ -24,4 +24,5 @@
     <string name="toast_updated">To-Do has become updated</string>
     <string name="text_additional_info">Additional information</string>
     <string name="label_created">Created at:</string>
+    <string name="label_modified">Last modified at:</string>
 </resources>

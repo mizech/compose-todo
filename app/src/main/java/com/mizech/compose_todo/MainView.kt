@@ -29,6 +29,13 @@ import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+@SuppressLint("SimpleDateFormat")
+fun createDateTimeStr(timestamp: Long): String {
+    val sdf = SimpleDateFormat("dd.MM.yyyy, HH:mm")
+    val oDate = Date(timestamp)
+    return sdf.format(oDate)
+}
+
 @ExperimentalMaterialApi
 @SuppressLint("UnrememberedMutableState", "CoroutineCreationDuringComposition")
 @Composable
@@ -145,9 +152,9 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
              */
             LazyColumn(horizontalAlignment = Alignment.Start) {
                 items(todos.count()) { index ->
-                    val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm")
-                    val oDate = Date(todos.get(index).modifiedAt)
-                    val dateStr = sdf.format(oDate)
+                    val sCreated = createDateTimeStr(todos.get(index).createdAt)
+                    val sModified = createDateTimeStr(todos.get(index).modifiedAt)
+
                     Card(onClick = {
                         navigator.navigate("details/${todos.get(index).id}")
                     }, elevation = 5.dp,
@@ -157,22 +164,22 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                             .padding(bottom = 10.dp),
                         border = BorderStroke(3.dp,
                             SolidColor(if (todos[index].isDone)  Color.Green else Color.Red))) {
-                        Column(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp,
+                        Column(modifier = Modifier.padding(top = 5.dp, bottom = 7.dp,
                             start = 10.dp, end = 10.dp)) {
                             Text(
                                 text = todos.get(index).title,
                                 style = MaterialTheme.typography.subtitle1,
                                 modifier = Modifier.padding()
                             )
-                            Row(horizontalArrangement = Arrangement.SpaceAround,
-                                modifier = Modifier.fillMaxWidth()) {
-                                Text(text = "${stringResource(R.string.label_created)} ${dateStr}",
-                                    modifier = Modifier.padding(10.dp),
-                                    style = MaterialTheme.typography.caption)
-                                Text(text = "Last modified at: ${todos.get(index).modifiedAt}",
-                                    modifier = Modifier.padding(10.dp),
-                                    style = MaterialTheme.typography.caption)
-                            }
+                            Text(text = "${stringResource(R.string.label_created)} ${sCreated}",
+                                modifier = Modifier.padding(start = 10.dp, end = 10.dp,
+                                    bottom = 3.dp),
+                                style = MaterialTheme.typography.caption)
+                            Text(text = "${stringResource(R.string.label_modified)} " +
+                                    "${sModified}",
+                                modifier = Modifier.padding(start = 10.dp, end = 10.dp,
+                                    bottom = 5.dp),
+                                style = MaterialTheme.typography.caption)
                         }
                     }
                 }
