@@ -19,10 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.mizech.compose_todo.AppDatabase
-import com.mizech.compose_todo.ConfirmAlertDialog
+import com.mizech.compose_todo.*
 import com.mizech.compose_todo.R
-import com.mizech.compose_todo.Todo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -132,5 +130,10 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 }
             )
         }
+        Text("${stringResource(R.string.label_created)} " +
+                "${Utils.createDateTimeStr(todo?.createdAt ?: 0L)}",
+            modifier = Modifier.padding(top = 20.dp, bottom = 10.dp))
+        Text("${stringResource(R.string.label_modified)} " +
+                "${Utils.createDateTimeStr(todo?.modifiedAt ?: 0L)}")
     }
 }

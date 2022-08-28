@@ -1,7 +1,6 @@
 package com.mizech.compose_todo.ui.theme
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -21,20 +20,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.mizech.compose_todo.AppDatabase
-import com.mizech.compose_todo.ConfirmAlertDialog
+import com.mizech.compose_todo.*
 import com.mizech.compose_todo.R
-import com.mizech.compose_todo.Todo
 import kotlinx.coroutines.*
-import java.text.SimpleDateFormat
-import java.util.*
-
-@SuppressLint("SimpleDateFormat")
-fun createDateTimeStr(timestamp: Long): String {
-    val sdf = SimpleDateFormat("dd.MM.yyyy, HH:mm")
-    val oDate = Date(timestamp)
-    return sdf.format(oDate)
-}
 
 @ExperimentalMaterialApi
 @SuppressLint("UnrememberedMutableState", "CoroutineCreationDuringComposition")
@@ -152,8 +140,8 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
              */
             LazyColumn(horizontalAlignment = Alignment.Start) {
                 items(todos.count()) { index ->
-                    val sCreated = createDateTimeStr(todos.get(index).createdAt)
-                    val sModified = createDateTimeStr(todos.get(index).modifiedAt)
+                    val sCreated = Utils.createDateTimeStr(todos.get(index).createdAt)
+                    val sModified = Utils.createDateTimeStr(todos.get(index).modifiedAt)
 
                     Card(onClick = {
                         navigator.navigate("details/${todos.get(index).id}")
