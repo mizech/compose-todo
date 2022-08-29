@@ -80,7 +80,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
 
     Column(horizontalAlignment = Alignment.Start) {
         TopAppBar(title = {
-                          Text(text = stringResource(id = R.string.bar_title_details))
+                          Text(text = stringResource(R.string.bar_title_all))
         }, actions = {
             Row(horizontalArrangement = Arrangement.SpaceAround) {
                 IconButton(onClick = {
