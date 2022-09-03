@@ -133,6 +133,13 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                 Text(stringResource(R.string.button_insert))
             }
 
+            /*
+                todo:
+                 - Die Notizen ebenfalls in der Uebersicht darstellen.
+                 - Titel und Notizen in der erlaubten Laenge begrenzen.
+                 - Titel, Notizen abschneiden, wenn bestimmte Laenge ueberschritten und
+                    dann ... anzeigen.
+             */
             LazyColumn(horizontalAlignment = Alignment.Start) {
                 items(todos.count()) { index ->
                     val sCreated = Utils.createDateTimeStr(todos.get(index).createdAt)
@@ -141,7 +148,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                     Card(onClick = {
                         navigator.navigate("details/${todos.get(index).id}")
                     }, elevation = 5.dp,
-                        shape = RoundedCornerShape(10.dp),
+                        shape = RoundedCornerShape(6.dp),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 10.dp),
