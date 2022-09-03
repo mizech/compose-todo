@@ -86,6 +86,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
             value = "${todo?.title ?: "Not set!"}",
             onValueChange = {
                 todo?.title = it
+                todo?.modifiedAt = System.currentTimeMillis()
                 CoroutineScope(Dispatchers.IO).launch {
                     roomDb.todoDao().update(todo!!)
                 }
@@ -102,6 +103,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         TextField(value = "${todo?.notes ?: "Not set!"}",
             onValueChange = {
                 todo?.notes = it
+                todo?.modifiedAt = System.currentTimeMillis()
                 CoroutineScope(Dispatchers.IO).launch {
                     roomDb.todoDao().update(todo!!)
                 }
@@ -124,6 +126,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 checked = todo?.isDone ?: false,
                 onCheckedChange = {
                     todo?.isDone = it
+                    todo?.modifiedAt = System.currentTimeMillis()
                     CoroutineScope(Dispatchers.IO).launch {
                         roomDb.todoDao().update(todo!!)
                     }

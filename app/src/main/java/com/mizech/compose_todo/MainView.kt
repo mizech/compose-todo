@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -80,7 +81,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
 
     Column(horizontalAlignment = Alignment.Start) {
         TopAppBar(title = {
-                          Text(text = stringResource(R.string.bar_title_all))
+            Text(text = stringResource(R.string.bar_title_all))
         }, actions = {
             Row(horizontalArrangement = Arrangement.SpaceAround) {
                 IconButton(onClick = {
@@ -129,15 +130,9 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
                     }
                 }
             }) {
-                /*
-                    todo: Disketten-Icon hinter dem Text.
-                */
                 Text(stringResource(R.string.button_insert))
             }
 
-            /*
-                todo: Zusaetzliche Attribute 'createdAt' und 'modifiedAt'
-             */
             LazyColumn(horizontalAlignment = Alignment.Start) {
                 items(todos.count()) { index ->
                     val sCreated = Utils.createDateTimeStr(todos.get(index).createdAt)
