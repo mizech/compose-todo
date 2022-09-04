@@ -8,6 +8,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 
+/*
+    todo: Field 'has to be finished until'
+ */
+
 @Entity(tableName = "todos")
 class Todo {
     @PrimaryKey(autoGenerate = true)

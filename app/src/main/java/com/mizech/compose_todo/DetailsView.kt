@@ -35,13 +35,16 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
     var todo by remember {
         mutableStateOf<Todo?>(null)
     }
-
-    CoroutineScope(Dispatchers.IO).launch {
-        var result = roomDb.todoDao().selectById(todoId.toInt())
-        withContext(Dispatchers.Main) {
-            todo = result
+    fun selectTodoById() {
+        CoroutineScope(Dispatchers.IO).launch {
+            var result = roomDb.todoDao().selectById(todoId.toInt())
+            withContext(Dispatchers.Main) {
+                todo = result
+            }
         }
     }
+
+    selectTodoById()
 
     var isDelConfirmOpen = remember {
         mutableStateOf(false)
@@ -89,6 +92,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 todo?.modifiedAt = System.currentTimeMillis()
                 CoroutineScope(Dispatchers.IO).launch {
                     roomDb.todoDao().update(todo!!)
+                    selectTodoById()
                 }
         }, label = {
             Text(text = stringResource(R.string.text_title))
@@ -106,6 +110,7 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 todo?.modifiedAt = System.currentTimeMillis()
                 CoroutineScope(Dispatchers.IO).launch {
                     roomDb.todoDao().update(todo!!)
+                    selectTodoById()
                 }
             }, label = {
                 Text(text = stringResource(R.string.text_notes))
