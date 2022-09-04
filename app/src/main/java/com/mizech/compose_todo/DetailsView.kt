@@ -31,6 +31,8 @@ import kotlinx.coroutines.withContext
 fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
     val context = LocalContext.current
     val toastMinChars = stringResource(R.string.toast_min_chars)
+    val toastMaxChars = stringResource(R.string.toast_max_title)
+    val toastNoteChars = stringResource(R.string.toast_max_note)
     val toastUpdated = stringResource(R.string.toast_updated)
     var todo by remember {
         mutableStateOf<Todo?>(null)
@@ -88,6 +90,10 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         TextField(
             value = "${todo?.title ?: "Not set!"}",
             onValueChange = {
+                if (it.length >= Utils.maxTitleLength) {
+                    Toast.makeText(context, toastMaxChars, Toast.LENGTH_LONG)
+                    return@TextField
+                }
                 todo?.title = it
                 todo?.modifiedAt = System.currentTimeMillis()
                 CoroutineScope(Dispatchers.IO).launch {
@@ -106,6 +112,11 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 .fillMaxWidth())
         TextField(value = "${todo?.notes ?: "Not set!"}",
             onValueChange = {
+                if (it.length >= Utils.maxNoteLength) {
+                    Toast.makeText(context, toastNoteChars, Toast.LENGTH_LONG)
+                    return@TextField
+                }
+
                 todo?.notes = it
                 todo?.modifiedAt = System.currentTimeMillis()
                 CoroutineScope(Dispatchers.IO).launch {

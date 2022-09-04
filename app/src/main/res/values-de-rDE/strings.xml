@@ -26,4 +26,6 @@
     <string name="text_additional_info">Zusätzliche Informationen</string>
     <string name="label_created">Erstellt am:</string>
     <string name="label_modified">Zuletzt geändert am:</string>
+    <string name="toast_max_title">Max. Titellänge: 100 Zeichen</string>
+    <string name="toast_max_note">Max. Notizlänge: 300 Zeichen</string>
 </resources>

@@ -38,6 +38,7 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
     }
 
     val context = LocalContext.current
+    val toastMaxChars = stringResource(R.string.toast_max_title)
     val toastMinChars = stringResource(R.string.toast_min_chars)
     var todos = remember {
         mutableStateListOf<Todo>()
@@ -102,6 +103,10 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
             .fillMaxSize()
             .padding(start = 25.dp, end = 25.dp)) {
             TextField(value = currentTitle, onValueChange = {
+                if (it.length >= Utils.maxTitleLength) {
+                    Toast.makeText(context, toastMaxChars, Toast.LENGTH_LONG)
+                    return@TextField
+                }
                 currentTitle = it
             }, label = {
                 Text(text = stringResource(id = R.string.text_add_todo))
@@ -136,7 +141,6 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
             /*
                 todo:
                  - Die Notizen ebenfalls in der Uebersicht darstellen.
-                 - Titel und Notizen in der erlaubten Laenge begrenzen.
                  - Titel, Notizen abschneiden, wenn bestimmte Laenge ueberschritten und
                     dann ... anzeigen.
              */

@@ -10,4 +10,7 @@ object Utils {
         val oDate = Date(timestamp)
         return sdf.format(oDate)
     }
+
+    public val maxTitleLength = 100
+    public val maxNoteLength = 300
 }
