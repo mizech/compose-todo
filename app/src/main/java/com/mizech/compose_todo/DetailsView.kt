@@ -37,11 +37,20 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
     var todo by remember {
         mutableStateOf<Todo?>(null)
     }
+    var sTitle by remember {
+        mutableStateOf("")
+    }
+    var sNotes by remember {
+        mutableStateOf("")
+    }
+
     fun selectTodoById() {
         CoroutineScope(Dispatchers.IO).launch {
             var result = roomDb.todoDao().selectById(todoId.toInt())
             withContext(Dispatchers.Main) {
                 todo = result
+                sTitle = "${result.title}"
+                sNotes = "${result.notes}"
             }
         }
     }
@@ -88,12 +97,13 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
             }
         })
         TextField(
-            value = "${todo?.title ?: "Not set!"}",
+            value = "${sTitle ?: "Not set!"}",
             onValueChange = {
                 if (it.length >= Utils.maxTitleLength) {
                     Toast.makeText(context, toastMaxChars, Toast.LENGTH_LONG)
                     return@TextField
                 }
+                sTitle = it
                 todo?.title = it
                 todo?.modifiedAt = System.currentTimeMillis()
                 CoroutineScope(Dispatchers.IO).launch {
@@ -110,13 +120,14 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                     start = 25.dp, end = 25.dp
                 )
                 .fillMaxWidth())
-        TextField(value = "${todo?.notes ?: "Not set!"}",
+        TextField(value = "${sNotes ?: "Not set!"}",
             onValueChange = {
                 if (it.length >= Utils.maxNoteLength) {
                     Toast.makeText(context, toastNoteChars, Toast.LENGTH_LONG)
                     return@TextField
                 }
 
+                sNotes = it
                 todo?.notes = it
                 todo?.modifiedAt = System.currentTimeMillis()
                 CoroutineScope(Dispatchers.IO).launch {
