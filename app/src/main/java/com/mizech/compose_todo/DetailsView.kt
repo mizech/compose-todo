@@ -108,7 +108,6 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 todo?.modifiedAt = System.currentTimeMillis()
                 CoroutineScope(Dispatchers.IO).launch {
                     roomDb.todoDao().update(todo!!)
-                    selectTodoById()
                 }
         }, label = {
             Text(text = stringResource(R.string.text_title))
@@ -132,7 +131,6 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 todo?.modifiedAt = System.currentTimeMillis()
                 CoroutineScope(Dispatchers.IO).launch {
                     roomDb.todoDao().update(todo!!)
-                    selectTodoById()
                 }
             }, label = {
                 Text(text = stringResource(R.string.text_notes))
