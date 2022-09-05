@@ -7,7 +7,7 @@ interface TodoDao {
     @Insert
     suspend fun insertAll(vararg todos: Todo)
 
-    @Query("SELECT * FROM todos ORDER BY isDone ASC")
+    @Query("SELECT * FROM todos ORDER BY isDone ASC, modifiedAt ASC")
     suspend fun selectAllTodos(): List<Todo>
 
     @Query("SELECT * FROM todos WHERE todos.todoId = :todoId")
