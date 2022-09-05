@@ -28,7 +28,8 @@ import kotlinx.coroutines.withContext
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
+fun DetailsView(todoId: String, todoText: String, todoNote: String,
+                navigator: NavController, roomDb: AppDatabase) {
     val context = LocalContext.current
     val toastMinChars = stringResource(R.string.toast_min_chars)
     val toastMaxChars = stringResource(R.string.toast_max_title)
@@ -38,10 +39,10 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
         mutableStateOf<Todo?>(null)
     }
     var sTitle by remember {
-        mutableStateOf("")
+        mutableStateOf(todoText)
     }
     var sNotes by remember {
-        mutableStateOf("")
+        mutableStateOf(todoNote)
     }
 
     fun selectTodoById() {
@@ -103,10 +104,10 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                     Toast.makeText(context, toastMaxChars, Toast.LENGTH_LONG)
                     return@TextField
                 }
-                sTitle = it
-                todo?.title = it
-                todo?.modifiedAt = System.currentTimeMillis()
+
                 CoroutineScope(Dispatchers.IO).launch {
+                    todo?.title = it
+                    todo?.modifiedAt = System.currentTimeMillis()
                     roomDb.todoDao().update(todo!!)
                 }
         }, label = {
@@ -130,7 +131,12 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
                 todo?.notes = it
                 todo?.modifiedAt = System.currentTimeMillis()
                 CoroutineScope(Dispatchers.IO).launch {
+                    todo?.notes = it
+                    todo?.modifiedAt = System.currentTimeMillis()
                     roomDb.todoDao().update(todo!!)
+                    withContext(Dispatchers.Main) {
+                        sNotes = it
+                    }
                 }
             }, label = {
                 Text(text = stringResource(R.string.text_notes))
@@ -150,9 +156,9 @@ fun DetailsView(todoId: String, navigator: NavController, roomDb: AppDatabase) {
             Checkbox(
                 checked = todo?.isDone ?: false,
                 onCheckedChange = {
-                    todo?.isDone = it
-                    todo?.modifiedAt = System.currentTimeMillis()
                     CoroutineScope(Dispatchers.IO).launch {
+                        todo?.isDone = it
+                        todo?.modifiedAt = System.currentTimeMillis()
                         roomDb.todoDao().update(todo!!)
                     }
                 }
