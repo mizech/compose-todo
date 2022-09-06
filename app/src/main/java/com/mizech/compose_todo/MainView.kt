@@ -156,7 +156,8 @@ fun MainView(navigator: NavController, roomDb: AppDatabase,
                             .fillMaxWidth()
                             .padding(bottom = 10.dp),
                         border = BorderStroke(3.dp,
-                            SolidColor(if (todos[index].isDone)  Color.Green else Color.Yellow))) {
+                            SolidColor(if (todos[index].isDone)  Color.Green
+                                else if (todos[index].isImportant) Color.Red else Color.Yellow))) {
                         Column(modifier = Modifier.padding(top = 5.dp, bottom = 7.dp,
                             start = 10.dp, end = 10.dp)) {
                             Text(
