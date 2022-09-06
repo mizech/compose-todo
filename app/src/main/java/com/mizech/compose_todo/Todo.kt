@@ -28,6 +28,9 @@ class Todo {
     @ColumnInfo(name = "isDone")
     var isDone: Boolean = false
 
+    @ColumnInfo(name = "isImportant")
+    var isImportant: Boolean = false
+
     @ColumnInfo(name = "createdAt")
     var createdAt: Long = System.currentTimeMillis()
 

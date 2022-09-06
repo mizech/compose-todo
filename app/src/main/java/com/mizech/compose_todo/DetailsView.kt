@@ -165,6 +165,22 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                 }
             )
         }
+        Row(modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically) {
+            Text(text = stringResource(R.string.text_done),
+                fontWeight = FontWeight.Bold)
+            Checkbox(
+                checked = todo?.isImportant ?: false,
+                onCheckedChange = {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        todo?.isImportant = it
+                        todo?.modifiedAt = System.currentTimeMillis()
+                        roomDb.todoDao().update(todo!!)
+                    }
+                }
+            )
+        }
         Text("${stringResource(R.string.label_created)} " +
                 "${Utils.createDateTimeStr(todo?.createdAt ?: 0L)}",
             modifier = Modifier.padding(top = 20.dp, bottom = 10.dp))

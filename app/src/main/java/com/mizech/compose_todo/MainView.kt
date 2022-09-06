@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.mizech.compose_todo.*
 import com.mizech.compose_todo.R
@@ -28,7 +29,9 @@ import kotlinx.coroutines.*
 @ExperimentalMaterialApi
 @SuppressLint("UnrememberedMutableState", "CoroutineCreationDuringComposition")
 @Composable
-fun MainView(navigator: NavController, roomDb: AppDatabase) {
+fun MainView(navigator: NavController, roomDb: AppDatabase,
+             viewModel: MainViewModel = viewModel()
+) {
     suspend fun selectAllTodos(todos: SnapshotStateList<Todo>) {
         var existing = roomDb.todoDao().selectAllTodos()
         withContext(Dispatchers.Main) {
@@ -46,10 +49,6 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
 
     CoroutineScope(Dispatchers.IO).launch {
         selectAllTodos(todos)
-    }
-
-    var currentTitle by remember {
-        mutableStateOf("")
     }
 
     var isDelAllConfirmOpen = remember {
@@ -102,12 +101,12 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(start = 25.dp, end = 25.dp)) {
-            TextField(value = currentTitle, onValueChange = {
+            TextField(value = viewModel.currentTitle, onValueChange = {
                 if (it.length >= Utils.maxTitleLength) {
                     Toast.makeText(context, toastMaxChars, Toast.LENGTH_LONG)
                     return@TextField
                 }
-                currentTitle = it
+                viewModel.currentTitle = it
             }, label = {
                 Text(text = stringResource(id = R.string.text_add_todo))
             }, placeholder = {
@@ -118,19 +117,19 @@ fun MainView(navigator: NavController, roomDb: AppDatabase) {
             Button(modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(), onClick = {
-                if (currentTitle.length < 3) {
+                if (viewModel.currentTitle.length < 3) {
                     Toast.makeText(context,
                         toastMinChars,
                         Toast.LENGTH_LONG).show();
                 } else {
                     val todo = Todo()
-                    todo.title = currentTitle
+                    todo.title = viewModel.currentTitle
 
                     CoroutineScope(Dispatchers.IO).launch {
                         roomDb.todoDao().insertAll(todo)
 
                         withContext(Dispatchers.Main) {
-                            currentTitle = ""
+                            viewModel.currentTitle = ""
                         }
                     }
                 }
