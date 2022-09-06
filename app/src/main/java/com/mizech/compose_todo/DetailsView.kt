@@ -168,7 +168,7 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
         Row(modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically) {
-            Text(text = stringResource(R.string.text_done),
+            Text(text = stringResource(R.string.text_important),
                 fontWeight = FontWeight.Bold)
             Checkbox(
                 checked = todo?.isImportant ?: false,
