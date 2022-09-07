@@ -98,6 +98,10 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                 }
             }
         })
+        /*
+            Todo: Fehlermeldung, wenn Titel, Notiz zu lang.
+
+         */
         TextField(
             value = "${sTitle ?: "Not set!"}",
             onValueChange = {

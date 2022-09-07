@@ -11,7 +11,7 @@
     <string name="bar_title_details">Details zur Aufgabe</string>
     <string name="desc_del_all_done">Alle erledigten Aufgaben löschen</string>
     <string name="desc_del_all">Alle Aufgaben löschen</string>
-    <string name="text_add_todo">Neue Aufgabe hinzufügen</string>
+    <string name="text_add_todo">Aufgabe hinzufügen: Eingabe Titel</string>
     <string name="toast_min_chars">Für den Titel mindestens 3 Zeichen eingeben</string>
     <string name="placeholder_what_has">Was muss erledigt werden?</string>
     <string name="confirm_del_todo">Die Aufgabe wird gelöscht</string>
