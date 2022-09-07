@@ -8,4 +8,5 @@ import androidx.lifecycle.ViewModel
 
 class MainViewModel: ViewModel() {
     var currentTitle by mutableStateOf("")
+    var currentTitleError by mutableStateOf(false)
 }

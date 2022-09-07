@@ -102,18 +102,29 @@ fun MainView(navigator: NavController, roomDb: AppDatabase,
             .fillMaxSize()
             .padding(start = 25.dp, end = 25.dp)) {
             TextField(value = viewModel.currentTitle, onValueChange = {
-                if (it.length >= Utils.maxTitleLength) {
-                    Toast.makeText(context, toastMaxChars, Toast.LENGTH_LONG)
+                if (it.length > Utils.maxTitleLength) {
+                    viewModel.currentTitleError = true
                     return@TextField
+                } else {
+                    viewModel.currentTitleError = false
                 }
                 viewModel.currentTitle = it
-            }, label = {
+            }, isError = viewModel.currentTitleError,
+                label = {
                 Text(text = stringResource(id = R.string.text_add_todo))
             }, placeholder = {
                 Text(text = stringResource(id = R.string.placeholder_what_has))
             }, modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 15.dp, bottom = 10.dp))
+            if (viewModel.currentTitleError) {
+                Text(
+                    text = toastMaxChars,
+                    color = MaterialTheme.colors.error,
+                    style = MaterialTheme.typography.caption,
+                    modifier = Modifier.padding(top = 5.dp, bottom = 5.dp)
+                )
+            }
             Button(modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(), onClick = {
