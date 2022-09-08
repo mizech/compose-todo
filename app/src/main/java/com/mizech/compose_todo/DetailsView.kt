@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.mizech.compose_todo.*
 import com.mizech.compose_todo.R
@@ -30,12 +31,13 @@ import kotlinx.coroutines.withContext
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun DetailsView(todoId: String, todoText: String, todoNote: String,
-                navigator: NavController, roomDb: AppDatabase) {
+                navigator: NavController, roomDb: AppDatabase,
+                viewModel: MainViewModel = viewModel()
+) {
     val context = LocalContext.current
     val toastMinChars = stringResource(R.string.toast_min_chars)
-    val toastMaxChars = stringResource(R.string.toast_max_title)
+    val messageMaxChars = stringResource(R.string.toast_max_title)
     val toastNoteChars = stringResource(R.string.toast_max_note)
-    val toastUpdated = stringResource(R.string.toast_updated)
     var todo by remember {
         mutableStateOf<Todo?>(null)
     }
@@ -105,9 +107,11 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
         TextField(
             value = "${sTitle ?: "Not set!"}",
             onValueChange = {
-                if (it.length >= Utils.maxTitleLength) {
-                    Toast.makeText(context, toastMaxChars, Toast.LENGTH_LONG)
+                if (it.length > Utils.maxTitleLength) {
+                    viewModel.currentTitleError = true
                     return@TextField
+                } else {
+                    viewModel.currentTitleError = false
                 }
 
                 CoroutineScope(Dispatchers.IO).launch {
@@ -117,7 +121,8 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                 }
         }, label = {
             Text(text = stringResource(R.string.text_title))
-        }, placeholder = {
+        }, isError = viewModel.currentTitleError,
+            placeholder = {
             Text(text = stringResource(R.string.placeholder_title))
         }, modifier = Modifier
                 .padding(
@@ -125,9 +130,15 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                     start = 25.dp, end = 25.dp
                 )
                 .fillMaxWidth())
+        if (viewModel.currentTitleError) {
+            Text(messageMaxChars,
+                color = MaterialTheme.colors.error,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+        }
         TextField(value = "${sNotes ?: "Not set!"}",
             onValueChange = {
-                if (it.length >= Utils.maxNoteLength) {
+                if (it.length > Utils.maxNoteLength) {
                     Toast.makeText(context, toastNoteChars, Toast.LENGTH_LONG)
                     return@TextField
                 }
