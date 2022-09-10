@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterialApi::class)
 
-package com.mizech.compose_todo
+package com.mizech.compose_todo.views
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -13,14 +13,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
+import com.mizech.compose_todo.data.AppDatabase
 import com.mizech.compose_todo.ui.theme.ComposetodoTheme
 import com.mizech.compose_todo.ui.theme.DetailsView
 import com.mizech.compose_todo.ui.theme.MainView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("CoroutineCreationDuringComposition")

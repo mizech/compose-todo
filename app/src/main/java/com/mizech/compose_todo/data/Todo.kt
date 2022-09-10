@@ -1,4 +1,4 @@
-package com.mizech.compose_todo
+package com.mizech.compose_todo.data
 
 import android.os.Build
 import androidx.annotation.NonNull

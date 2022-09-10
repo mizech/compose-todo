@@ -9,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -24,6 +23,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.mizech.compose_todo.*
 import com.mizech.compose_todo.R
+import com.mizech.compose_todo.data.AppDatabase
+import com.mizech.compose_todo.data.MainViewModel
+import com.mizech.compose_todo.data.Todo
+import com.mizech.compose_todo.data.Utils
 import kotlinx.coroutines.*
 
 @ExperimentalMaterialApi
