@@ -1,24 +1,18 @@
 package com.mizech.compose_todo.ui.theme
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.mizech.compose_todo.*
@@ -37,7 +31,7 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
     val context = LocalContext.current
     val toastMinChars = stringResource(R.string.toast_min_chars)
     val messageMaxChars = stringResource(R.string.toast_max_title)
-    val toastNoteChars = stringResource(R.string.toast_max_note)
+    val toastNoteChars = stringResource(R.string.message_max_note)
     var todo by remember {
         mutableStateOf<Todo?>(null)
     }
@@ -139,8 +133,10 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
         TextField(value = "${sNotes ?: "Not set!"}",
             onValueChange = {
                 if (it.length > Utils.maxNoteLength) {
-                    Toast.makeText(context, toastNoteChars, Toast.LENGTH_LONG)
+                    viewModel.currentNoteError = true
                     return@TextField
+                } else {
+                    viewModel.currentNoteError = false
                 }
 
                 sNotes = it
@@ -156,7 +152,8 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                 }
             }, label = {
                 Text(text = stringResource(R.string.text_notes))
-            }, placeholder = {
+            }, isError = viewModel.currentNoteError,
+            placeholder = {
                 Text(text = stringResource(R.string.text_additional_info))
             }, modifier = Modifier
                 .padding(
@@ -164,6 +161,13 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                     start = 25.dp, end = 25.dp
                 )
                 .fillMaxWidth())
+            if (viewModel.currentNoteError) {
+                Text(
+                    stringResource(R.string.message_max_note),
+                    color = MaterialTheme.colors.error,
+                    style = MaterialTheme.typography.caption,
+                    modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+            }
         Row(modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically) {

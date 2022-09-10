@@ -25,7 +25,7 @@
     <string name="text_additional_info">Additional information</string>
     <string name="label_created">Created at:</string>
     <string name="label_modified">Last modified at:</string>
-    <string name="toast_max_title">Max. title-length: 100 chars</string>
-    <string name="toast_max_note">Max. note-length: 300 chars</string>
+    <string name="toast_max_title">Max. title-length: 150 chars</string>
+    <string name="message_max_note">Max. note-length: 400 chars</string>
     <string name="text_important">High importance</string>
 </resources>

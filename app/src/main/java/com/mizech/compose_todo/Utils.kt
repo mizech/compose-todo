@@ -11,6 +11,6 @@ object Utils {
         return sdf.format(oDate)
     }
 
-    public val maxTitleLength = 100
-    public val maxNoteLength = 300
+    public val maxTitleLength = 150
+    public val maxNoteLength = 400
 }
