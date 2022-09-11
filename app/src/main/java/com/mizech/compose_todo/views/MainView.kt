@@ -151,16 +151,11 @@ fun MainView(navigator: NavController, roomDb: AppDatabase,
                 Text(stringResource(R.string.button_insert))
             }
 
-            /*
-                todo:
-                 - Die Notizen ebenfalls in der Uebersicht darstellen.
-                 - Titel, Notizen abschneiden, wenn bestimmte Laenge ueberschritten und
-                    dann ... anzeigen.
-             */
             LazyColumn(horizontalAlignment = Alignment.Start) {
                 items(todos.count()) { index ->
                     val sCreated = Utils.createDateTimeStr(todos.get(index).createdAt)
                     val sModified = Utils.createDateTimeStr(todos.get(index).modifiedAt)
+                    val sNotes = todos.get(index).notes
 
                     Card(onClick = {
                         navigator.navigate("details/${todos.get(index).id}")
@@ -176,12 +171,21 @@ fun MainView(navigator: NavController, roomDb: AppDatabase,
                             start = 10.dp, end = 10.dp)) {
                             Text(
                                 text = todos.get(index).title,
-                                style = MaterialTheme.typography.subtitle1,
+                                style = MaterialTheme.typography.h6,
                                 modifier = Modifier.padding()
                             )
+                            if (sNotes.length > 0) {
+                                Text(
+                                    text = if (sNotes.length > 100)
+                                            "${sNotes.subSequence(0, 94).toString()} ... "
+                                            else todos.get(index).notes,
+                                    style = MaterialTheme.typography.body1,
+                                    modifier = Modifier.padding()
+                                )
+                            }
                             Text(text = "${stringResource(R.string.label_created)} ${sCreated}",
                                 modifier = Modifier.padding(start = 10.dp, end = 10.dp,
-                                    bottom = 3.dp),
+                                    top = 6.dp, bottom = 3.dp),
                                 style = MaterialTheme.typography.caption)
                             Text(text = "${stringResource(R.string.label_modified)} " +
                                     "${sModified}",
