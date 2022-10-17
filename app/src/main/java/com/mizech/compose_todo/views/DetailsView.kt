@@ -1,6 +1,7 @@
 package com.mizech.compose_todo.ui.theme
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -10,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -199,6 +201,13 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                     }
                 }
             )
+        }
+        Image(painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            contentDescription = "", Modifier.width(400.dp))
+        Button(onClick = {
+
+        }) {
+            Text("Select Image")
         }
         Text("${stringResource(R.string.label_created)} " +
                 "${Utils.createDateTimeStr(todo?.createdAt ?: 0L)}",
