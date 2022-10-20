@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">compose-todo</string>
+    <string name="app_name">To-Dos Liste</string>
     <string name="conf_del_all_title">Alle Aufgaben werden entfernt</string>
     <string name="conf_del_question">Wollen Sie fortfahren?</string>
     <string name="conf_del_yes">Fortfahren</string>
