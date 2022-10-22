@@ -10,7 +10,11 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -18,6 +22,8 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -98,7 +104,9 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize(),
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally) {
         TopAppBar(title = {
@@ -205,7 +213,7 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                 }
             )
         }
-        Row(modifier = Modifier.fillMaxWidth(),
+        Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically) {
             Text(text = stringResource(R.string.text_important),
@@ -233,10 +241,11 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
             bitmap.value?.let {
                 Image(bitmap = it.asImageBitmap(),
                     contentDescription = "",
-                    modifier = Modifier.size(380.dp))
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(start = 50.dp, end = 50.dp, bottom = 15.dp)
+                )
             }
         }
-
         Button(onClick = {
             launcher.launch("image/*")
         }) {
@@ -246,6 +255,7 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                 "${Utils.createDateTimeStr(todo?.createdAt ?: 0L)}",
             modifier = Modifier.padding(top = 20.dp, bottom = 10.dp))
         Text("${stringResource(R.string.label_modified)} " +
-                "${Utils.createDateTimeStr(todo?.modifiedAt ?: 0L)}")
+                "${Utils.createDateTimeStr(todo?.modifiedAt ?: 0L)}",
+            modifier = Modifier.padding(bottom = 30.dp))
     }
 }
