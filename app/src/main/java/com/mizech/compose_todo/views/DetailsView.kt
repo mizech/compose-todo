@@ -1,6 +1,14 @@
 package com.mizech.compose_todo.ui.theme
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -10,6 +18,7 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -46,6 +55,16 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
     }
     var sNotes by remember {
         mutableStateOf(todoNote)
+    }
+    var uriImage by remember {
+        mutableStateOf<Uri?>(null)
+    }
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()) {
+        uriImage = it
+    }
+    val bitmap = remember {
+        mutableStateOf<Bitmap?>(null)
     }
 
     fun selectTodoById() {
@@ -202,10 +221,24 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                 }
             )
         }
-        Image(painter = painterResource(id = R.drawable.ic_launcher_foreground),
-            contentDescription = "", Modifier.width(400.dp))
-        Button(onClick = {
 
+        uriImage?.let {
+            if (Build.VERSION.SDK_INT < 28) {
+                bitmap.value = MediaStore.Images.Media.getBitmap(context.contentResolver, it)
+            } else {
+                val dataImage = ImageDecoder.createSource(context.contentResolver, it)
+                bitmap.value = ImageDecoder.decodeBitmap(dataImage)
+            }
+
+            bitmap.value?.let {
+                Image(bitmap = it.asImageBitmap(),
+                    contentDescription = "",
+                    modifier = Modifier.size(380.dp))
+            }
+        }
+
+        Button(onClick = {
+            launcher.launch("image/*")
         }) {
             Text("Select Image")
         }
