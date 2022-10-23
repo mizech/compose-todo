@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.mizech.compose_todo.data.Todo
 import com.mizech.compose_todo.data.TodoDao
 
-@Database(entities = [(Todo::class)], version = 4)
+@Database(entities = [(Todo::class)], version = 5)
 public abstract class AppDatabase: RoomDatabase() {
     abstract fun todoDao(): TodoDao
 }
