@@ -51,9 +51,7 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                 viewModel: MainViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    val toastMinChars = stringResource(R.string.toast_min_chars)
     val messageMaxChars = stringResource(R.string.toast_max_title)
-    val toastNoteChars = stringResource(R.string.message_max_note)
     var todo by remember {
         mutableStateOf<Todo?>(null)
     }
@@ -81,6 +79,9 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                 todo = result
                 sTitle = "${result.title}"
                 sNotes = "${result.notes}"
+                if (result.imageUri != null) {
+                    uriImage = Uri.parse(result.imageUri)
+                }
             }
         }
     }
@@ -239,6 +240,11 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
             } else {
                 val dataImage = ImageDecoder.createSource(context.contentResolver, it)
                 bitmap.value = ImageDecoder.decodeBitmap(dataImage)
+            }
+
+            CoroutineScope(Dispatchers.IO).launch {
+                todo?.imageUri = it.toString()
+                roomDb.todoDao().update(todo!!)
             }
 
             bitmap.value?.let {

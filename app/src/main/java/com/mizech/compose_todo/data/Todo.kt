@@ -32,7 +32,7 @@ class Todo {
     var isImportant: Boolean = false
 
     @ColumnInfo(name = "imageUri")
-    var imageUri: String = ""
+    var imageUri: String? = null
 
     @ColumnInfo(name = "createdAt")
     var createdAt: Long = System.currentTimeMillis()
