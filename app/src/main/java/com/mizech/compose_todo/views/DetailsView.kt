@@ -50,7 +50,6 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                 navigator: NavController, roomDb: AppDatabase,
                 viewModel: MainViewModel = viewModel()
 ) {
-    val context = LocalContext.current
     val messageMaxChars = stringResource(R.string.toast_max_title)
     var todo by remember {
         mutableStateOf<Todo?>(null)
@@ -61,16 +60,6 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
     var sNotes by remember {
         mutableStateOf(todoNote)
     }
-    var uriImage by remember {
-        mutableStateOf<Uri?>(null)
-    }
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()) {
-        uriImage = it
-    }
-    val bitmap = remember {
-        mutableStateOf<Bitmap?>(null)
-    }
 
     fun selectTodoById() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -79,9 +68,6 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                 todo = result
                 sTitle = "${result.title}"
                 sNotes = "${result.notes}"
-                if (result.imageUri != null) {
-                    uriImage = Uri.parse(result.imageUri)
-                }
             }
         }
     }
@@ -230,35 +216,6 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
                     }
                 }
             )
-        }
-        /*
-            todo: uriImage in der DB speichern
-         */
-        uriImage?.let {
-            if (Build.VERSION.SDK_INT < 28) {
-                bitmap.value = MediaStore.Images.Media.getBitmap(context.contentResolver, it)
-            } else {
-                val dataImage = ImageDecoder.createSource(context.contentResolver, it)
-                bitmap.value = ImageDecoder.decodeBitmap(dataImage)
-            }
-
-            CoroutineScope(Dispatchers.IO).launch {
-                todo?.imageUri = it.toString()
-                roomDb.todoDao().update(todo!!)
-            }
-
-            bitmap.value?.let {
-                Image(bitmap = it.asImageBitmap(),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .width(if (LocalConfiguration.current.screenWidthDp.dp < 600.dp)
-                                380.dp else 580.dp))
-            }
-        }
-        Button(onClick = {
-            launcher.launch("image/*")
-        }) {
-            Text("Select Image")
         }
         Text("${stringResource(R.string.label_created)} " +
                 "${Utils.createDateTimeStr(todo?.createdAt ?: 0L)}",
