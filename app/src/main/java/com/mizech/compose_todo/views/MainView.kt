@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.rounded.Delete
@@ -168,6 +169,8 @@ fun MainView(
                     }
                 }
             }) {
+                Icon(Icons.Default.Add, "")
+                Spacer(Modifier.size(ButtonDefaults.IconSize))
                 Text(stringResource(R.string.button_insert))
             }
 
