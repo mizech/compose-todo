@@ -1,18 +1,18 @@
-# Task List
+# To-Do List
 
-Simple Android task list-app, done with Jetpack Compose and Room persistence library.
+Simple Android to-do list-app, done with Jetpack Compose and Room persistence library.
 
 ## Usage
 
-Provide a title and an optional note to create a task.
+Provide a title and an optional note to create a to-do.
 
-- Tasks, with the is-done flag not set, got a yellow border.
-- Tasks, with the high-importance flag, got a red border. They become ordered to the top of the list.
-- Tasks, with the is-done flag set, got a green border. They become ordered to the bottom of the list.
+- To-Dos, with the is-done flag not set, got a yellow border.
+- To-Dos, with the high-importance flag, got a red border. They become ordered to the top of the list.
+- To-Dos, with the is-done flag set, got a green border. They become ordered to the bottom of the list.
 
-In the list: You can change the is-done flag of a task by swiping from right to left.
+In the list: You can change the is-done flag of a to-do by swiping from right to left.
 
-
+Click on the trash bin-icon removes all to-dos with the is-done flag set. Click on the exclamation mark-icon empties the list.
 
 <div>
   <img src="./images/image_1.gif" alt="screenshot 1" width="350" />&nbsp;&nbsp;&nbsp;&nbsp; 
