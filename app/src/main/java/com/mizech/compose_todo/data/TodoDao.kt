@@ -12,7 +12,7 @@ interface TodoDao {
     suspend fun selectAllTodos(): List<Todo>
 
     @Query("SELECT * FROM todos WHERE todos.todoId = :todoId")
-    suspend fun selectById(todoId: Int): Todo
+    suspend fun selectById(todoId: Int): Todo?
 
     @Query("DELETE FROM todos")
     suspend fun deleteAll()

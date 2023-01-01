@@ -66,8 +66,8 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
             var result = roomDb.todoDao().selectById(todoId.toInt())
             withContext(Dispatchers.Main) {
                 todo = result
-                sTitle = "${result.title}"
-                sNotes = "${result.notes}"
+                sTitle = "${result?.title ?: ""}"
+                sNotes = "${result?.notes ?: ""}"
             }
         }
     }
@@ -83,6 +83,7 @@ fun DetailsView(todoId: String, todoText: String, todoNote: String,
             messageText = stringResource(R.string.confirm_del_todo)
         ) {
             CoroutineScope(Dispatchers.IO).launch {
+                println("todo id: ${todoId.toInt()}")
                 roomDb.todoDao().deleteById(todoId.toInt())
 
                 withContext(Dispatchers.Main) {
