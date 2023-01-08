@@ -15,13 +15,13 @@ In the list: You can change the is-done flag of a to-do by swiping from right to
 Click on the trash bin-icon removes all to-dos with the is-done flag set. Click on the exclamation mark-icon empties the list.
 
 <div>
-  <img src="./images/image_1.gif" alt="screenshot 1" width="350" />&nbsp;&nbsp;&nbsp;&nbsp; 
-  <img src="./images/image_2.gif" alt="screenshot 2" width="350" />  
+  <img src="./images/image_1.gif" alt="screenshot 1" width="200" />&nbsp;&nbsp;&nbsp;&nbsp; 
+  <img src="./images/image_2.gif" alt="screenshot 2" width="200" />  
 </div>
 <div>&nbsp;&nbsp;</div>
 <div>
-  <img src="./images/image_3.gif" alt="screenshot 3" width="350" />&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./images/image_4.gif" alt="screenshot 4" width="350" />
+  <img src="./images/image_3.gif" alt="screenshot 3" width="200" />&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="./images/image_4.gif" alt="screenshot 4" width="200" />
 </div>
 
 
