@@ -14,6 +14,8 @@ Within the details activity: You can provide an optional note and toggle the hig
 
 Pressing the trash bin-icon removes all to-dos with the is-done flag set. Pressing the exclamation mark-icon empties the list.
 
+## Screenshots
+
 <div>
   <img src="./images/image_1.gif" alt="screenshot 1" width="200" />&nbsp;&nbsp;&nbsp;&nbsp; 
   <img src="./images/image_2.gif" alt="screenshot 2" width="200" />&nbsp;&nbsp;&nbsp;&nbsp;
