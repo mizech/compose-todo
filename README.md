@@ -4,7 +4,7 @@ Simple Android to-do list-app, done with Jetpack Compose and Room persistence li
 
 ## Usage
 
-Within the All To-Dos activity: To create a to-do provide a title. Then press the Insert-Button. You can change the is-done flag of a to-do by swiping from right to left. The To-Dos are ordered by importance. Then by the date created/last-updated.
+Within the All To-Dos activity: To create a to-do provide a title. Then press the Insert-Button. You can change the is-done flag of a to-do by swiping from right to left.
 
 Within the details activity: You can provide an optional note and toggle the high-importance flag.
 
