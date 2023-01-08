@@ -4,7 +4,8 @@ Simple Android to-do list-app, done with Jetpack Compose and Room persistence li
 
 ## Usage
 
-Provide a title and an optional note to create a to-do.
+To create a to-do: Provide a title, then press the Insert-Button.
+Within the details-activity: You can provide an optional note and toggle the high-importance flag.
 
 - To-Dos with the is-done flag not set get a yellow border.
 - To-Dos with the high-importance flag get a red border. They become ordered to the top of the list.
