@@ -16,7 +16,7 @@ Click on the trash bin-icon removes all to-dos with the is-done flag set. Click 
 
 <div>
   <img src="./images/image_1.gif" alt="screenshot 1" width="200" />&nbsp;&nbsp;&nbsp;&nbsp; 
-  <img src="./images/image_2.gif" alt="screenshot 2" width="200" />  
+  <img src="./images/image_2.gif" alt="screenshot 2" width="200" />&nbsp;&nbsp;&nbsp;&nbsp;
   <img src="./images/image_3.gif" alt="screenshot 3" width="200" />&nbsp;&nbsp;&nbsp;&nbsp;
   <img src="./images/image_4.gif" alt="screenshot 4" width="200" />
 </div>
