@@ -12,7 +12,7 @@ Within the details activity: You can provide an optional note and toggle the hig
 - To-Dos with the high-importance flag get a red border. They become ordered to the top of the list.
 - To-Dos with the is-done flag set get a green border. They become ordered to the bottom of the list.
 
-Click on the trash bin-icon removes all to-dos with the is-done flag set. Click on the exclamation mark-icon empties the list.
+Pressing the trash bin-icon removes all to-dos with the is-done flag set. Pressing the exclamation mark-icon empties the list.
 
 <div>
   <img src="./images/image_1.gif" alt="screenshot 1" width="200" />&nbsp;&nbsp;&nbsp;&nbsp; 
