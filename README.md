@@ -6,7 +6,7 @@ Simple Android to-do list-app, done with Jetpack Compose and Room persistence li
 
 Within the All To-Dos activity: Create a to-do by providing a title. Then press the Insert-Button. You can change the is-done flag of a to-do by swiping from right to left.
 
-Within the details activity: You can provide an optional note and toggle the high-importance flag.
+Within the details activity: You can provide an optional note and toggle the high-importance flag. You can toggle the is-done flag. Remove the to-do by pressing the trash bin-icon.
 
 - To-Dos with the is-done flag not set get a yellow border.
 - To-Dos with the high-importance flag get a red border. They become ordered to the top of the list.
